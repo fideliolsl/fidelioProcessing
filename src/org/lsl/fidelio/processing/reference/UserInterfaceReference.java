@@ -32,15 +32,19 @@ public class UserInterfaceReference implements ActionListener {
 
     private JPanel mStarContainer2;
     private JButton mChangePosition2;
-    private JTextField mAzimos2;
+    private JTextField mAz2;
     private JTextField mAlt2;
     private JLabel mCoordinates2;
 
     private JPanel mStarContainer3;
     private JButton mChangePosition3;
-    private JTextField mAzimos3;
+    private JTextField mAz3;
     private JTextField mAlt3;
     private JLabel mCoordinates3;
+    private JTextField mStar1d2;
+    private JTextField mStar1d3;
+    private JTextField mStar2d3;
+    private JButton mButtonNext;
 
     private ImagePanel img;
 
@@ -51,7 +55,7 @@ public class UserInterfaceReference implements ActionListener {
     private static boolean imgLoaded = false;
     private JPanel mStar;
 
-    private int[] starArray = new int[6];
+    private int[] starArray = new int[5];
 
     public static void main(String[] args) {
         try {
@@ -79,6 +83,7 @@ public class UserInterfaceReference implements ActionListener {
         mChangePosition1.addActionListener(this);
         mChangePosition2.addActionListener(this);
         mChangePosition3.addActionListener(this);
+        mButtonNext.addActionListener(this);
         mRefImg.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,6 +106,23 @@ public class UserInterfaceReference implements ActionListener {
                 mStar = (JPanel) obj.getParent();
                 selectStar = true;
                 frame.setCursor(Frame.CROSSHAIR_CURSOR);
+            }
+        }
+        if (e.getSource() == mButtonNext){
+            if(isComplete()){
+                CalculateZenithNorth czn = new CalculateZenithNorth(
+                        starArray,
+                        Integer.parseInt(mStar1d2.getText()),
+                        Integer.parseInt(mStar1d3.getText()),
+                        Integer.parseInt(mStar2d3.getText()),
+                        Integer.parseInt(mAlt1.getText()),
+                        Integer.parseInt(mAz1.getText()),
+                        Integer.parseInt(mAlt2.getText()),
+                        Integer.parseInt(mAz2.getText()),
+                        Integer.parseInt(mAlt3.getText()),
+                        Integer.parseInt(mAz3.getText()));
+            }else{
+                warningDialog("Fill in all text fields!");
             }
         }
     }
@@ -134,6 +156,31 @@ public class UserInterfaceReference implements ActionListener {
 
     public static void warningDialog(String message) {
         JOptionPane.showMessageDialog(new JFrame(), message);
+    }
+
+    private boolean isComplete(){
+        boolean coordinatesSet = true;
+        for (int i = 0; i <= starArray.length; i++){
+            if(starArray[i]==0){
+                coordinatesSet = false;
+            }
+            else if (coordinatesSet){
+                coordinatesSet = true;
+            }
+        }
+        return Utils.isNumeric(mStar1d2.getText())&&
+                Utils.isNumeric(mStar1d3.getText()) &&
+                Utils.isNumeric(mStar2d3.getText()) &&
+
+                Utils.isNumeric(mAz1.getText()) &&
+                Utils.isNumeric(mAlt1.getText()) &&
+
+                Utils.isNumeric(mAz2.getText()) &&
+                Utils.isNumeric(mAlt2.getText()) &&
+
+                Utils.isNumeric(mAz3.getText()) &&
+                Utils.isNumeric(mAlt3.getText()) &&
+                coordinatesSet;
     }
 
     public void changeCoordinates(int x, int y) {
