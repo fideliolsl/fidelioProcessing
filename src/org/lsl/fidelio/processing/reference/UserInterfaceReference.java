@@ -45,6 +45,13 @@ public class UserInterfaceReference implements ActionListener {
     private JTextField mStar1d3;
     private JTextField mStar2d3;
     private JButton mButtonNext;
+    private JButton button1_1;
+    private JButton button1_2;
+    private JButton button2_1;
+    private JButton button2_2;
+    private JButton button3_1;
+    private JButton button3_2;
+    private JButton button7;
 
     private ImagePanel img;
 
@@ -55,7 +62,7 @@ public class UserInterfaceReference implements ActionListener {
     private static boolean imgLoaded = false;
     private JPanel mStar;
 
-    private int[] starArray = new int[5];
+    private int[] starArray = new int[6];
 
     public static void main(String[] args) {
         try {
@@ -160,7 +167,7 @@ public class UserInterfaceReference implements ActionListener {
 
     private boolean isComplete(){
         boolean coordinatesSet = true;
-        for (int i = 0; i <= starArray.length; i++){
+        for (int i = 0; i < starArray.length; i++){
             if(starArray[i]==0){
                 coordinatesSet = false;
             }
