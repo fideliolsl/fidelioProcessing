@@ -22,7 +22,7 @@ import java.awt.FlowLayout;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 
-public class StarPanel extends JPanel {
+public class StarPanel extends JPanel implements DocumentListener {
 
     private static JTextField txtStarX;
     private static JTextField txtStarY;
@@ -52,25 +52,23 @@ public class StarPanel extends JPanel {
      * Create the panel.
      */
 
-    private static DocumentListener dl = new DocumentListener() {
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            getAbsoluteAz(false);
-            getAbsoluteHeight(false);
-        }
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        getAbsoluteAz(false);
+        getAbsoluteHeight(false);
+    }
 
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            getAbsoluteAz(false);
-            getAbsoluteHeight(false);
-        }
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        getAbsoluteAz(false);
+        getAbsoluteHeight(false);
+    }
 
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            getAbsoluteAz(false);
-            getAbsoluteHeight(false);
-        }
-    };
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        getAbsoluteAz(false);
+        getAbsoluteHeight(false);
+    }
 
     public StarPanel(int index) {
         setBorder(new TitledBorder(new EmptyBorder(0, 0, 0, 0), String.format("Star %d", index), TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -223,29 +221,31 @@ public class StarPanel extends JPanel {
         gbc_separator_1.gridy = 5;
         add(separator_1, gbc_separator_1);
 
-        txtAzimutDegree.getDocument().addDocumentListener(dl);
-        txtAzimutMinute.getDocument().addDocumentListener(dl);
-        txtAzimutSecond.getDocument().addDocumentListener(dl);
+        txtAzimutDegree.getDocument().addDocumentListener(this);
+        txtAzimutMinute.getDocument().addDocumentListener(this);
+        txtAzimutSecond.getDocument().addDocumentListener(this);
 
-        txtHeightDegree.getDocument().addDocumentListener(dl);
-        txtHeightMinute.getDocument().addDocumentListener(dl);
-        txtHeightSecond.getDocument().addDocumentListener(dl);
+        txtHeightDegree.getDocument().addDocumentListener(this);
+        txtHeightMinute.getDocument().addDocumentListener(this);
+        txtHeightSecond.getDocument().addDocumentListener(this);
     }
 
-    public static int getAbsoluteAz(boolean finished) {
+    public int getAbsoluteAz(boolean finished) {
         int i = 0;
         try {
-            i = Integer.parseInt(txtAzimutDegree.getText()) + (Integer.parseInt(txtAzimutMinute.getText()) / 60
-                    + (Integer.parseInt(txtAzimutSecond.getText()) / 60) / 60);
-            lblAz.setForeground(Color.decode("0x000000"));
-        } catch (NumberFormatException e) {
-            // System.err.println(e.getMessage());
+            i = Integer.parseInt(this.txtAzimutDegree.getText()) + (Integer.parseInt(this.txtAzimutMinute.getText()) / 60
+                    + (Integer.parseInt(this.txtAzimutSecond.getText()) / 60) / 60);
+            this.lblAz.setForeground(Color.decode("0x000000"));
+            System.out.println(txtAzimutDegree.getText().toString());
+        } catch (Exception e) {
+             System.err.println(e.getMessage());
             if (finished) {
                 ReferenceUI.warningDialog("Insert numeric values!");
                 lblAz.setForeground(Color.decode("0xad8c43"));
             } else {
                 lblAz.setForeground(Color.decode("0xad8c43"));
             }
+                System.out.println("setColor");
         }
         return i;
     }

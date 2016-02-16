@@ -1,8 +1,6 @@
 package org.lsl.fidelio.processing.util;
 
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -10,12 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class StarDistances extends JPanel {
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
-    private JTextField textField_4;
-    private JTextField textField_5;
+    private JTextField txtDegreeDistance1_2;
+    private JTextField txtMinuteDistance1_2;
+    private JTextField txtSecondDistance1_2;
+
+    private JTextField txtDegreeDistance2_3;
+    private JTextField txtMinuteDistance2_3;
+    private JTextField txtSecondDistance2_3;
+
+    private JTextField txtDegreeDistance1_3;
+    private JTextField txtMinuteDistance1_3;
+    private JTextField txtSecondDistance1_3;
 
     public StarDistances() {
         createContents();
@@ -25,107 +28,107 @@ public class StarDistances extends JPanel {
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        JPanel panelAzimut = new JPanel();
-        add(panelAzimut);
-        panelAzimut.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        JPanel panelDistance1_2 = new JPanel();
+        add(panelDistance1_2);
+        panelDistance1_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        JLabel lblAz = new JLabel("Azimut:");
-        panelAzimut.add(lblAz);
+            JLabel lblDistance1_2 = new JLabel("Distance 1 - 2:");
+            panelDistance1_2.add(lblDistance1_2);
 
-        JTextField txtAzimutDegree = new JTextField();
-        txtAzimutDegree.setText("0");
-        panelAzimut.add(txtAzimutDegree);
-        txtAzimutDegree.setColumns(4);
+            txtDegreeDistance1_2 = new JTextField();
+            txtDegreeDistance1_2.setText("0");
+            panelDistance1_2.add(txtDegreeDistance1_2);
+            txtDegreeDistance1_2.setColumns(4);
 
-        JLabel lblAzD = new JLabel("°");
-        panelAzimut.add(lblAzD);
+            JLabel lblDegreeDistance1_2 = new JLabel("°");
+            panelDistance1_2.add(lblDegreeDistance1_2);
 
-        JTextField txtAzimutMinute = new JTextField();
-        txtAzimutMinute.setText("0");
-        txtAzimutMinute.setColumns(4);
-        panelAzimut.add(txtAzimutMinute);
+            txtMinuteDistance1_2 = new JTextField();
+            txtMinuteDistance1_2.setText("0");
+            txtMinuteDistance1_2.setColumns(4);
+            panelDistance1_2.add(txtMinuteDistance1_2);
 
-        JLabel lblAzM = new JLabel("'");
-        panelAzimut.add(lblAzM);
+            JLabel lblAzM = new JLabel("'");
+            panelDistance1_2.add(lblAzM);
 
-        JTextField txtAzimutSecond = new JTextField();
-        txtAzimutSecond.setText("0");
-        panelAzimut.add(txtAzimutSecond);
-        txtAzimutSecond.setColumns(4);
+            txtSecondDistance1_2 = new JTextField();
+            txtSecondDistance1_2.setText("0");
+            panelDistance1_2.add(txtSecondDistance1_2);
+            txtSecondDistance1_2.setColumns(4);
 
-        JLabel lblAzS = new JLabel("\"");
-        panelAzimut.add(lblAzS);
+            JLabel lblAzS = new JLabel("\"");
+            panelDistance1_2.add(lblAzS);
 
-        JLabel lblAzValue = new JLabel("= %n");
-        panelAzimut.add(lblAzValue);
+            JLabel lblAzValue = new JLabel("= %n");
+            panelDistance1_2.add(lblAzValue);
 
         JPanel panel = new JPanel();
         add(panel);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        JLabel label = new JLabel("Azimut:");
-        panel.add(label);
+            JLabel label = new JLabel("Distance 2 - 3:");
+            panel.add(label);
 
-        this.textField = new JTextField();
-        this.textField.setText("0");
-        this.textField.setColumns(4);
-        panel.add(this.textField);
+            this.txtDegreeDistance2_3 = new JTextField();
+            this.txtDegreeDistance2_3.setText("0");
+            this.txtDegreeDistance2_3.setColumns(4);
+            panel.add(this.txtDegreeDistance2_3);
 
-        JLabel label_1 = new JLabel("°");
-        panel.add(label_1);
+            JLabel label_1 = new JLabel("°");
+            panel.add(label_1);
 
-        this.textField_1 = new JTextField();
-        this.textField_1.setText("0");
-        this.textField_1.setColumns(4);
-        panel.add(this.textField_1);
+            this.txtMinuteDistance2_3 = new JTextField();
+            this.txtMinuteDistance2_3.setText("0");
+            this.txtMinuteDistance2_3.setColumns(4);
+            panel.add(this.txtMinuteDistance2_3);
 
-        JLabel label_2 = new JLabel("'");
-        panel.add(label_2);
+            JLabel label_2 = new JLabel("'");
+            panel.add(label_2);
 
-        this.textField_2 = new JTextField();
-        this.textField_2.setText("0");
-        this.textField_2.setColumns(4);
-        panel.add(this.textField_2);
+            this.txtSecondDistance2_3 = new JTextField();
+            this.txtSecondDistance2_3.setText("0");
+            this.txtSecondDistance2_3.setColumns(4);
+            panel.add(this.txtSecondDistance2_3);
 
-        JLabel label_3 = new JLabel("\"");
-        panel.add(label_3);
+            JLabel label_3 = new JLabel("\"");
+            panel.add(label_3);
 
-        JLabel label_4 = new JLabel("= %n");
-        panel.add(label_4);
+            JLabel label_4 = new JLabel("= %n");
+            panel.add(label_4);
 
         JPanel panel_1 = new JPanel();
         add(panel_1);
         panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        JLabel label_5 = new JLabel("Azimut:");
-        panel_1.add(label_5);
+            JLabel label_5 = new JLabel("Distance 1 - 3:");
+            panel_1.add(label_5);
 
-        this.textField_3 = new JTextField();
-        this.textField_3.setText("0");
-        this.textField_3.setColumns(4);
-        panel_1.add(this.textField_3);
+            this.txtDegreeDistance1_3 = new JTextField();
+            this.txtDegreeDistance1_3.setText("0");
+            this.txtDegreeDistance1_3.setColumns(4);
+            panel_1.add(this.txtDegreeDistance1_3);
 
-        JLabel label_6 = new JLabel("°");
-        panel_1.add(label_6);
+            JLabel label_6 = new JLabel("°");
+            panel_1.add(label_6);
 
-        this.textField_4 = new JTextField();
-        this.textField_4.setText("0");
-        this.textField_4.setColumns(4);
-        panel_1.add(this.textField_4);
+            this.txtMinuteDistance1_3 = new JTextField();
+            this.txtMinuteDistance1_3.setText("0");
+            this.txtMinuteDistance1_3.setColumns(4);
+            panel_1.add(this.txtMinuteDistance1_3);
 
-        JLabel label_7 = new JLabel("'");
-        panel_1.add(label_7);
+            JLabel label_7 = new JLabel("'");
+            panel_1.add(label_7);
 
-        this.textField_5 = new JTextField();
-        this.textField_5.setText("0");
-        this.textField_5.setColumns(4);
-        panel_1.add(this.textField_5);
+            this.txtSecondDistance1_3 = new JTextField();
+            this.txtSecondDistance1_3.setText("0");
+            this.txtSecondDistance1_3.setColumns(4);
+            panel_1.add(this.txtSecondDistance1_3);
 
-        JLabel label_8 = new JLabel("\"");
-        panel_1.add(label_8);
+            JLabel label_8 = new JLabel("\"");
+            panel_1.add(label_8);
 
-        JLabel label_9 = new JLabel("= %n");
-        panel_1.add(label_9);
+            JLabel label_9 = new JLabel("= %n");
+            panel_1.add(label_9);
     }
 
 }

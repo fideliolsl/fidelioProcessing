@@ -3,7 +3,6 @@ package org.lsl.fidelio.processing.reference;
 import org.lsl.fidelio.processing.util.StarPanel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.SystemColor;
