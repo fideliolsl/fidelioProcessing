@@ -115,8 +115,8 @@ public class UserInterfaceReference implements ActionListener {
                 frame.setCursor(Frame.CROSSHAIR_CURSOR);
             }
         }
-        if (e.getSource() == mButtonNext){
-            if(isComplete()){
+        if (e.getSource() == mButtonNext) {
+            if (isComplete()) {
                 CalculateZenithNorth czn = new CalculateZenithNorth(
                         starArray,
                         Integer.parseInt(mStar1d2.getText()),
@@ -128,7 +128,7 @@ public class UserInterfaceReference implements ActionListener {
                         Integer.parseInt(mAz2.getText()),
                         Integer.parseInt(mAlt3.getText()),
                         Integer.parseInt(mAz3.getText()));
-            }else{
+            } else {
                 warningDialog("Fill in all text fields!");
             }
         }
@@ -165,17 +165,16 @@ public class UserInterfaceReference implements ActionListener {
         JOptionPane.showMessageDialog(new JFrame(), message);
     }
 
-    private boolean isComplete(){
+    private boolean isComplete() {
         boolean coordinatesSet = true;
-        for (int i = 0; i < starArray.length; i++){
-            if(starArray[i]==0){
+        for (int i = 0; i < starArray.length; i++) {
+            if (starArray[i] == 0) {
                 coordinatesSet = false;
-            }
-            else if (coordinatesSet){
+            } else if (coordinatesSet) {
                 coordinatesSet = true;
             }
         }
-        return Utils.isNumeric(mStar1d2.getText())&&
+        return Utils.isNumeric(mStar1d2.getText()) &&
                 Utils.isNumeric(mStar1d3.getText()) &&
                 Utils.isNumeric(mStar2d3.getText()) &&
 
