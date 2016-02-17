@@ -24,29 +24,29 @@ import java.awt.event.InputMethodEvent;
 
 public class StarPanel extends JPanel implements DocumentListener {
 
-    private static JTextField txtStarX;
-    private static JTextField txtStarY;
-    private static JButton btnEdit;
-    private static JPanel panelAzimut;
-    private static JTextField txtAzimutDegree;
-    private static JLabel lblAzD;
-    private static JTextField txtAzimutMinute;
-    private static JLabel lblAzM;
-    private static JTextField txtAzimutSecond;
-    private static JLabel lblAzS;
-    private static JSeparator separator;
-    private static JPanel panelHeight;
-    private static JTextField txtHeightDegree;
-    private static JLabel lblHeightD;
-    private static JTextField txtHeightMinute;
-    private static JLabel lblHeightM;
-    private static JTextField txtHeightSecond;
-    private static JLabel lblHeightS;
-    private static JLabel lblHeight;
-    private static JLabel lblAz;
-    private static JSeparator separator_1;
-    private static JLabel lblAzValue;
-    private static JLabel lblHeightValue;
+     JTextField txtStarX;
+     JTextField txtStarY;
+     JButton btnEdit;
+     JPanel panelAzimut;
+     JTextField txtAzimutDegree;
+     JLabel lblAzD;
+     JTextField txtAzimutMinute;
+     JLabel lblAzM;
+     JTextField txtAzimutSecond;
+     JLabel lblAzS;
+     JSeparator separator;
+     JPanel panelHeight;
+     JTextField txtHeightDegree;
+     JLabel lblHeightD;
+     JTextField txtHeightMinute;
+     JLabel lblHeightM;
+     JTextField txtHeightSecond;
+     JLabel lblHeightS;
+     JLabel lblHeight;
+     JLabel lblAz;
+     JSeparator separator_1;
+     JLabel lblAzValue;
+     JLabel lblHeightValue;
 
     /**
      * Create the panel.
@@ -230,7 +230,7 @@ public class StarPanel extends JPanel implements DocumentListener {
         txtHeightSecond.getDocument().addDocumentListener(this);
     }
 
-    public int getAbsoluteAz(boolean finished) {
+    int getAbsoluteAz(boolean finished) {
         int i = 0;
         try {
             i = Integer.parseInt(this.txtAzimutDegree.getText()) + (Integer.parseInt(this.txtAzimutMinute.getText()) / 60
@@ -238,19 +238,18 @@ public class StarPanel extends JPanel implements DocumentListener {
             this.lblAz.setForeground(Color.decode("0x000000"));
             System.out.println(txtAzimutDegree.getText().toString());
         } catch (Exception e) {
-             System.err.println(e.getMessage());
+             //System.err.println(e);
             if (finished) {
                 ReferenceUI.warningDialog("Insert numeric values!");
                 lblAz.setForeground(Color.decode("0xad8c43"));
             } else {
                 lblAz.setForeground(Color.decode("0xad8c43"));
             }
-                System.out.println("setColor");
         }
         return i;
     }
 
-    public static int getAbsoluteHeight(boolean finished) {
+    int getAbsoluteHeight(boolean finished) {
         int i = 0;
         try {
             i = Integer.parseInt(txtHeightDegree.getText()) + (Integer.parseInt(txtHeightMinute.getText()) / 60

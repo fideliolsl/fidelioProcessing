@@ -8,17 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class StarDistances extends JPanel {
-    private JTextField txtDegreeDistance1_2;
-    private JTextField txtMinuteDistance1_2;
-    private JTextField txtSecondDistance1_2;
+    JTextField txtDegreeDistance1_2;
+    JTextField txtMinuteDistance1_2;
+    JTextField txtSecondDistance1_2;
 
-    private JTextField txtDegreeDistance2_3;
-    private JTextField txtMinuteDistance2_3;
-    private JTextField txtSecondDistance2_3;
+    JTextField txtDegreeDistance2_3;
+    JTextField txtMinuteDistance2_3;
+    JTextField txtSecondDistance2_3;
 
-    private JTextField txtDegreeDistance1_3;
-    private JTextField txtMinuteDistance1_3;
-    private JTextField txtSecondDistance1_3;
+    JTextField txtDegreeDistance1_3;
+    JTextField txtMinuteDistance1_3;
+    JTextField txtSecondDistance1_3;
 
     public StarDistances() {
         createContents();
@@ -69,26 +69,26 @@ public class StarDistances extends JPanel {
             JLabel label = new JLabel("Distance 2 - 3:");
             panel.add(label);
 
-            this.txtDegreeDistance2_3 = new JTextField();
-            this.txtDegreeDistance2_3.setText("0");
-            this.txtDegreeDistance2_3.setColumns(4);
-            panel.add(this.txtDegreeDistance2_3);
+            txtDegreeDistance2_3 = new JTextField();
+            txtDegreeDistance2_3.setText("0");
+            txtDegreeDistance2_3.setColumns(4);
+            panel.add(txtDegreeDistance2_3);
 
             JLabel label_1 = new JLabel("°");
             panel.add(label_1);
 
-            this.txtMinuteDistance2_3 = new JTextField();
-            this.txtMinuteDistance2_3.setText("0");
-            this.txtMinuteDistance2_3.setColumns(4);
-            panel.add(this.txtMinuteDistance2_3);
+            txtMinuteDistance2_3 = new JTextField();
+            txtMinuteDistance2_3.setText("0");
+            txtMinuteDistance2_3.setColumns(4);
+            panel.add(txtMinuteDistance2_3);
 
             JLabel label_2 = new JLabel("'");
             panel.add(label_2);
 
-            this.txtSecondDistance2_3 = new JTextField();
-            this.txtSecondDistance2_3.setText("0");
-            this.txtSecondDistance2_3.setColumns(4);
-            panel.add(this.txtSecondDistance2_3);
+            txtSecondDistance2_3 = new JTextField();
+            txtSecondDistance2_3.setText("0");
+            txtSecondDistance2_3.setColumns(4);
+            panel.add(txtSecondDistance2_3);
 
             JLabel label_3 = new JLabel("\"");
             panel.add(label_3);
@@ -103,26 +103,26 @@ public class StarDistances extends JPanel {
             JLabel label_5 = new JLabel("Distance 1 - 3:");
             panel_1.add(label_5);
 
-            this.txtDegreeDistance1_3 = new JTextField();
-            this.txtDegreeDistance1_3.setText("0");
-            this.txtDegreeDistance1_3.setColumns(4);
-            panel_1.add(this.txtDegreeDistance1_3);
+            txtDegreeDistance1_3 = new JTextField();
+            txtDegreeDistance1_3.setText("0");
+            txtDegreeDistance1_3.setColumns(4);
+            panel_1.add(txtDegreeDistance1_3);
 
             JLabel label_6 = new JLabel("°");
             panel_1.add(label_6);
 
-            this.txtMinuteDistance1_3 = new JTextField();
-            this.txtMinuteDistance1_3.setText("0");
-            this.txtMinuteDistance1_3.setColumns(4);
-            panel_1.add(this.txtMinuteDistance1_3);
+            txtMinuteDistance1_3 = new JTextField();
+            txtMinuteDistance1_3.setText("0");
+            txtMinuteDistance1_3.setColumns(4);
+            panel_1.add(txtMinuteDistance1_3);
 
             JLabel label_7 = new JLabel("'");
             panel_1.add(label_7);
 
-            this.txtSecondDistance1_3 = new JTextField();
-            this.txtSecondDistance1_3.setText("0");
-            this.txtSecondDistance1_3.setColumns(4);
-            panel_1.add(this.txtSecondDistance1_3);
+            txtSecondDistance1_3 = new JTextField();
+            txtSecondDistance1_3.setText("0");
+            txtSecondDistance1_3.setColumns(4);
+            panel_1.add(txtSecondDistance1_3);
 
             JLabel label_8 = new JLabel("\"");
             panel_1.add(label_8);
