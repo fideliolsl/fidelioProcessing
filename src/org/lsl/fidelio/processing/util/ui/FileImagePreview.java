@@ -1,4 +1,4 @@
-package org.lsl.fidelio.processing.util;
+package org.lsl.fidelio.processing.util.ui;
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
@@ -35,13 +35,13 @@ import java.beans.*;
 import java.awt.*;
 import java.io.File;
 
-/* ImagePreview.java by FileChooserDemo2.java. */
-public class ImagePreview extends JComponent
+/* FileImagePreview.java by FileChooserDemo2.java. */
+public class FileImagePreview extends JComponent
         implements PropertyChangeListener {
     ImageIcon thumbnail = null;
     File file = null;
 
-    public ImagePreview(JFileChooser fc) {
+    public FileImagePreview(JFileChooser fc) {
         setPreferredSize(new Dimension(100, 50));
         fc.addPropertyChangeListener(this);
     }

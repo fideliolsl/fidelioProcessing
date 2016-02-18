@@ -1,6 +1,26 @@
+/*
+ * Copyright 2015-2016 Jonas Drotleff for FIDELIO Project - Life Science Lab Heidelberg
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @see <a href="http://life-science-lab.org">life-science-lab.org</a>
+ */
+
 package org.lsl.fidelio.processing.reference;
 
 import org.lsl.fidelio.processing.util.*;
+import org.lsl.fidelio.processing.util.ui.ImagePanel;
+import org.lsl.fidelio.processing.util.ui.FileImagePreview;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +29,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * Created by Jonas Drotleff on 12.12.2015.
@@ -81,7 +100,7 @@ public class UserInterfaceReference implements ActionListener {
         mFileChooserRefImg.setFileSelectionMode(JFileChooser.FILES_ONLY);
         mFileChooserRefImg.addChoosableFileFilter(new ImageFilter());
         mFileChooserRefImg.setAcceptAllFileFilterUsed(false);
-        mFileChooserRefImg.setAccessory(new ImagePreview(mFileChooserRefImg));
+        mFileChooserRefImg.setAccessory(new FileImagePreview(mFileChooserRefImg));
 
     }
 
@@ -190,7 +209,7 @@ public class UserInterfaceReference implements ActionListener {
     }
 
     public void changeCoordinates(int x, int y) {
-        if (ImagePanel.imgWidth < x || ImagePanel.imgHeight < y) {
+        if (img.getWidth() < x || img.getHeight() < y) {
             if (mStar == mStarContainer1) {
                 mCoordinates1.setText("Error: Out of bounds");
             }
@@ -206,27 +225,27 @@ public class UserInterfaceReference implements ActionListener {
                 mCoordinates1.setText("X: " + x + " Y: " + y);
                 starArray[0] = x;
                 starArray[1] = y;
-                img.setPosition1(x, y);
-                if (!img.isVisible1()) {
-                    img.setVisible1(true);
+                img.setPosition(x, y, ImagePanel.STAR_1);
+                if (!img.isVisible(ImagePanel.STAR_1)) {
+                    img.setVisible(true, ImagePanel.STAR_1);
                 }
             }
             if (mStar == mStarContainer2) {
                 mCoordinates2.setText("X: " + x + " Y: " + y);
                 starArray[2] = x;
                 starArray[3] = y;
-                img.setPosition2(x, y);
-                if (!img.isVisible2()) {
-                    img.setVisible2(true);
+                img.setPosition(x, y, ImagePanel.STAR_2);
+                if (!img.isVisible(ImagePanel.STAR_2)) {
+                    img.setVisible(true, ImagePanel.STAR_2);
                 }
             }
             if (mStar == mStarContainer3) {
                 mCoordinates3.setText("X: " + x + " Y: " + y);
                 starArray[4] = x;
                 starArray[5] = y;
-                img.setPosition3(x, y);
-                if (!img.isVisible3()) {
-                    img.setVisible3(true);
+                img.setPosition(x, y, ImagePanel.STAR_3);
+                if (!img.isVisible(ImagePanel.STAR_3)) {
+                    img.setVisible(true, ImagePanel.STAR_3);
                 }
             }
             frame.setCursor(Frame.DEFAULT_CURSOR);

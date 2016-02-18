@@ -1,7 +1,8 @@
-package org.lsl.fidelio.processing.util;
+package org.lsl.fidelio.processing.util.ui;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.lsl.fidelio.processing.reference.ReferenceUI;
+import org.lsl.fidelio.processing.util.Utils;
 
 import java.awt.*;
 

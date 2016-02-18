@@ -1,4 +1,4 @@
-package org.lsl.fidelio.processing.util;
+package org.lsl.fidelio.processing.util.ui;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -16,6 +16,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 
 import org.lsl.fidelio.processing.reference.ReferenceUI;
+import org.lsl.fidelio.processing.util.Utils;
 
 import javax.swing.JSeparator;
 import java.awt.FlowLayout;
