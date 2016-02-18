@@ -1,5 +1,6 @@
 package org.lsl.fidelio.processing.reference;
 
+import org.lsl.fidelio.processing.util.StarDistances;
 import org.lsl.fidelio.processing.util.StarPanel;
 
 import java.awt.BorderLayout;
@@ -25,6 +26,7 @@ public class ReferenceUI extends JFrame implements ActionListener {
     private StarPanel star1;
     private StarPanel star2;
     private StarPanel star3;
+    private StarDistances starDistances;
     private JButton btnAbort;
     private JButton btnNext;
 
@@ -108,6 +110,10 @@ public class ReferenceUI extends JFrame implements ActionListener {
 
         star3 = new StarPanel(3);
         starControlPanel.add(star3);
+
+        starDistances = new StarDistances();
+        starControlPanel.add(starDistances);
+
     }
 
     public static void warningDialog(String message) {

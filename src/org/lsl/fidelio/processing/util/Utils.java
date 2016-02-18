@@ -57,9 +57,6 @@ public class Utils {
         return ext;
     }
 
-    /**
-     * Returns an ImageIcon, or null if the path was invalid.
-     */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = Utils.class.getResource(path);
         if (imgURL != null) {
@@ -70,16 +67,21 @@ public class Utils {
         }
     }
 
-    public static boolean isNumeric(String str)
-    {
-        try
-        {
+    public static boolean isNumeric(String str) {
+        try {
             double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
+    }
+
+    static public String numberFormatHelper(String string, double d) {
+        if (d == (int) d) {
+            return String.format(string + " %d", (int) d);
+        }else {
+            System.out.println(d);
+            return String.format(string + " %s", d);
+        }
     }
 }
