@@ -31,6 +31,7 @@ package org.lsl.fidelio.processing.util;
  */
 
 import java.io.File;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 
 /* Utils.java is used by FileChooserDemo2.java. */
@@ -81,7 +82,7 @@ public class Utils {
             return String.format(string + " %d", (int) d);
         }else {
             System.out.println(d);
-            return String.format(string + " %s", d);
+            return String.format(string + " %s", new DecimalFormat("#.##").format(d));
         }
     }
 }
