@@ -20,10 +20,12 @@ import org.lsl.fidelio.processing.util.Utils;
 
 import javax.swing.JSeparator;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 
-public class StarPanel extends JPanel implements DocumentListener {
+public class StarPanel extends JPanel implements ActionListener, DocumentListener {
 
     JTextField txtStarX;
     JTextField txtStarY;
@@ -59,6 +61,8 @@ public class StarPanel extends JPanel implements DocumentListener {
 
     boolean isNumeric = false;
 
+    int panelIndex = 0;
+
     /**
      * Create the panel.
      */
@@ -84,6 +88,7 @@ public class StarPanel extends JPanel implements DocumentListener {
     }
 
     public StarPanel(int index) {
+        panelIndex = index;
         setBorder(new TitledBorder(new EmptyBorder(0, 0, 0, 0), String.format("Star %d", index), TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
@@ -117,6 +122,7 @@ public class StarPanel extends JPanel implements DocumentListener {
         gbc_btnEdit.fill = GridBagConstraints.BOTH;
         gbc_btnEdit.gridx = 2;
         gbc_btnEdit.gridy = 0;
+        btnEdit.addActionListener(this);
         add(btnEdit, gbc_btnEdit);
 
         JLabel lblY = new JLabel("Y:");
@@ -243,6 +249,11 @@ public class StarPanel extends JPanel implements DocumentListener {
         txtHeightSecond.getDocument().addDocumentListener(this);
     }
 
+    public void setCoordinates(int x, int y){
+        txtStarX.setText(String.valueOf(x));
+        txtStarY.setText(String.valueOf(y));
+    }
+
     double getAbsoluteAz() {
         calculatedAzimuth = 0;
         try {
@@ -277,4 +288,8 @@ public class StarPanel extends JPanel implements DocumentListener {
         return calculatedHeight;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ReferenceUI.changeCoordinates(panelIndex);
+    }
 }

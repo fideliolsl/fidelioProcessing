@@ -28,18 +28,52 @@ package org.lsl.fidelio.processing.util;
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ---
+ *
+ * Copyright 2015-2016 Jonas Drotleff for FIDELIO Project - Life Science Lab Heidelberg
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @see <a href="http://life-science-lab.org">life-science-lab.org</a>
  */
 
-import java.io.File;
+import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
+import org.lsl.fidelio.processing.reference.ReferenceUI;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.util.Properties;
 import javax.swing.ImageIcon;
 
-/* Utils.java is used by FileChooserDemo2.java. */
 public class Utils {
+
     public final static String jpeg = "jpeg";
     public final static String jpg = "jpg";
     public final static String png = "png";
     public final static String avi = "avi";
+
+    private static Properties prop = new Properties();
+    private static OutputStream outputStream = null;
+    private static InputStream inputStream = null;
+
+    private static Path projectDirectory = Paths.get(System.getProperty("user.home") + File.separator + ".fidelio");
+    private static File propertyFile = new File(projectDirectory + File.separator + "config.properties");
+
+    public static String KEY_LASTFILE = "last_file";
 
     /*
      * Get the extension of a file.
@@ -77,9 +111,85 @@ public class Utils {
     static public String numberFormatHelper(String string, double d) {
         if (d == (int) d) {
             return String.format(string + " %d", (int) d);
-        }else {
+        } else {
             System.out.println(d);
             return String.format(string + " %s", new DecimalFormat("#.##").format(d));
         }
+    }
+
+    public static void loadProperties() {
+        if (Files.notExists(projectDirectory)) {
+            projectDirectory.toFile().mkdir();
+        }
+        if (Files.notExists(propertyFile.toPath())) {
+            try {
+                outputStream = new FileOutputStream(propertyFile.toString());
+                prop.setProperty(KEY_LASTFILE, "");
+                prop.store(outputStream, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                ReferenceUI.warningDialog("Error while creating property file.");
+            } finally {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        System.getProperty("user.home");
+    }
+
+    public static void setPropery(String key, String value) {
+        try {
+            outputStream = new FileOutputStream(propertyFile.toString());
+            prop.setProperty(key, value);
+            prop.store(outputStream, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ReferenceUI.warningDialog("Error while creating property file.");
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static String getProperty(String key) {
+        String s = null;
+        try {
+            inputStream = new FileInputStream(propertyFile);
+            prop.load(inputStream);
+            s = prop.getProperty(key);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return s;
+    }
+
+    public static int getIndexOfValue(boolean[] array, boolean value){
+        int index = -1;
+        for (int i = 0; i < array.length; i++){
+            if (array[i] == value){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

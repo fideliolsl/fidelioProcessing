@@ -18,16 +18,17 @@
 
 package org.lsl.fidelio.processing.reference;
 
-import org.lsl.fidelio.processing.util.ImageFilter;
-import org.lsl.fidelio.processing.util.ui.FileImagePreview;
-import org.lsl.fidelio.processing.util.ui.StarDistances;
-import org.lsl.fidelio.processing.util.ui.StarPanel;
+import org.lsl.fidelio.processing.util.*;
+import org.lsl.fidelio.processing.util.ui.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
+import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -37,13 +38,19 @@ import javax.swing.event.DocumentListener;
 public class ReferenceUI extends JFrame implements ActionListener, DocumentListener {
 
     private JPanel contentPane;
-    private StarPanel star1;
-    private StarPanel star2;
-    private StarPanel star3;
-    private StarDistances starDistances;
+    private StarPanel star1Panel;
+    private StarPanel star2Panel;
+    private StarPanel star3Panel;
+    private static StarPanel[] starPanels = new StarPanel[3];
+    private StarDistances starDistancesPanel;
     private JButton btnAbort;
     private JButton btnNext;
     private JMenuItem menuItemFileOpen;
+    private static ImagePanel previewPanel;
+    private JScrollPane scrollPanePreview;
+
+    private static boolean imgLoaded = false;
+    private static boolean[] selectStar = {false, false, false};
 
     private static JFileChooser mFileChooserRefImg = new JFileChooser();
 
@@ -56,7 +63,6 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             public void run() {
                 try {
                     ReferenceUI frame = new ReferenceUI();
-                    frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -70,6 +76,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     public ReferenceUI() {
         super("FIDELIO Analysis - Reference Image");
         createContents();
+        Utils.loadProperties();
     }
 
     private void createContents() {
@@ -98,11 +105,18 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         btnNext = new JButton("Next");
         rightControlPanel.add(btnNext);
 
-        JScrollPane scrollPanePreview = new JScrollPane();
+        scrollPanePreview = new JScrollPane();
+        scrollPanePreview.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPanePreview.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         contentPane.add(scrollPanePreview, BorderLayout.CENTER);
 
-        JPanel previewPanel = new JPanel();
-        scrollPanePreview.setViewportView(previewPanel);
+        String file = Utils.getProperty(Utils.KEY_LASTFILE);
+        if (file != null && !file.isEmpty()) {
+            System.out.println("loaded image: " + file);
+            previewPanel = new ImagePanel(new File(file));
+            scrollPanePreview.setViewportView(previewPanel);
+            imgLoaded = true;
+        }
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -113,24 +127,32 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         starControlPanel.setLayout(new BoxLayout(starControlPanel, BoxLayout.PAGE_AXIS));
         scrollPane.setViewportView(starControlPanel);
 
-        star1 = new StarPanel(1);
-        starControlPanel.add(star1);
+        star1Panel = new StarPanel(0);
+        starControlPanel.add(star1Panel);
 
-        star2 = new StarPanel(2);
-        starControlPanel.add(star2);
+        star2Panel = new StarPanel(1);
+        starControlPanel.add(star2Panel);
 
-        star3 = new StarPanel(3);
-        starControlPanel.add(star3);
+        star3Panel = new StarPanel(2);
+        starControlPanel.add(star3Panel);
 
-        starDistances = new StarDistances();
-        starControlPanel.add(starDistances);
+        starPanels[0] = star1Panel;
+        starPanels[1] = star2Panel;
+        starPanels[2] = star3Panel;
+
+        starDistancesPanel = new StarDistances();
+        starControlPanel.add(starDistancesPanel);
 
         createMenu();
         createFileDialog();
+        initListeners();
+
+//        pack();
+        setVisible(true);
 
     }
 
-    private void createFileDialog(){
+    private void createFileDialog() {
         mFileChooserRefImg.setFileSelectionMode(JFileChooser.FILES_ONLY);
         mFileChooserRefImg.addChoosableFileFilter(new ImageFilter());
         mFileChooserRefImg.setAcceptAllFileFilterUsed(false);
@@ -153,8 +175,19 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         setJMenuBar(menuBar);
     }
 
+    private void initListeners() {
+        previewPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (selectStar[0] || selectStar[1] || selectStar[2]) {
+                    updateCoordinates(e.getX(), e.getY());
+                }
+            }
+        });
+    }
+
     private void openFileDialog(JFileChooser jFileChooser) {
-        System.out.println("Open Dialog");
         int returnVal = jFileChooser.showOpenDialog(new JPanel());
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = jFileChooser.getSelectedFile();
@@ -162,17 +195,16 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
                 System.out.println("File does not exist");
                 JOptionPane.showMessageDialog(new JFrame(), "Sorry. Something went wrong, try again.");
             } else {
-                /*if (jFileChooser == mFileChooserRefImg) {
+                if (jFileChooser == mFileChooserRefImg) {
                     System.out.println("Applying Image");
-                    mRefImg.removeAll();
-                    img = new ImagePanel(file);
-                    img.setVisible(true);
-
-                    mRefImg.add(img);
-                    mRefImg.repaint();
-                    mRefImg.revalidate();
+                    scrollPanePreview.removeAll();
+                    previewPanel = new ImagePanel(file);
+                    scrollPanePreview.setViewportView(previewPanel);
+                    scrollPanePreview.repaint();
+                    scrollPanePreview.revalidate();
                     imgLoaded = true;
-                }*/
+                    Utils.setPropery(Utils.KEY_LASTFILE, file.toString());
+                }
             }
         } else {
             // User aborted action
@@ -182,6 +214,31 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
 
     public static void warningDialog(String message) {
         JOptionPane.showMessageDialog(new JFrame(), message);
+    }
+
+    public static void changeCoordinates(int index) {
+        if (imgLoaded) {
+            selectStar = new boolean[3];
+            selectStar[index] = true;
+            previewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        } else {
+            warningDialog("Open image first (File > Open)");
+        }
+    }
+
+    public static void updateCoordinates(int x, int y) {
+        int starIndex = Utils.getIndexOfValue(selectStar, true);
+        if (x > previewPanel.getImageWidth() || y > previewPanel.getImageHeight()) {
+            selectStar = new boolean[3];
+            warningDialog("Error: Out of bounds!");
+            previewPanel.setCursor(Cursor.getDefaultCursor());
+        }else{
+            previewPanel.setPosition(x, y, starIndex);
+            starPanels[starIndex].setCoordinates(x, y);
+            if(!previewPanel.isVisible(starIndex)){
+                previewPanel.setVisible(true, starIndex);
+            }
+        }
     }
 
     // Listeners

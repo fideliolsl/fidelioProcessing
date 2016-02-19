@@ -2,6 +2,7 @@ package org.lsl.fidelio.processing.util.ui;
 
 import org.lsl.fidelio.processing.reference.UserInterfaceReference;
 import org.lsl.fidelio.processing.util.ui.pointers.Star;
+import org.lsl.fidelio.processing.util.ui.pointers.StarDistancesPointer;
 import org.lsl.fidelio.processing.util.ui.pointers.Zenith;
 
 import javax.imageio.ImageIO;
@@ -50,7 +51,7 @@ public class ImagePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (image != null) {
-            setSize(image.getWidth(), image.getHeight());
+            setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
             g.setFont(font);
             Graphics2D g2d = (Graphics2D) g;
             g2d.rotate(0);
@@ -69,7 +70,24 @@ public class ImagePanel extends JPanel {
                 new Star(g, color, "2", position[2]);
 
             }
+            if(visibility[0] && visibility[1]){
+                new StarDistancesPointer(g, color, "0 - 1", position[0], position[1]);
+            }
+            if(visibility[0] && visibility[2]){
+                new StarDistancesPointer(g, color, "0 - 2", position[0], position[2]);
+            }
+            if(visibility[1] && visibility[2]){
+                new StarDistancesPointer(g, color, "1 - 2", position[1], position[2]);
+            }
         }
+    }
+
+    public int getImageHeight(){
+        return image.getHeight();
+    }
+
+    public int getImageWidth(){
+        return image.getWidth();
     }
 
     public void setVisible(boolean visible, int index) {
