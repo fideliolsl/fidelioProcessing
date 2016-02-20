@@ -46,18 +46,20 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     private JButton btnAbort;
     private JButton btnNext;
     private JMenuItem menuItemFileOpen;
-    private static ImagePanel previewPanel;
+    public static ImagePanel previewPanel;
     private JScrollPane scrollPanePreview;
 
     private static boolean imgLoaded = false;
     private static boolean[] selectStar = {false, false, false};
+
+    public static boolean loadLast = false;
 
     private static JFileChooser mFileChooserRefImg = new JFileChooser();
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -69,14 +71,15 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             }
         });
     }
-
+*/
     /**
      * Create the frame.
      */
-    public ReferenceUI() {
+    public ReferenceUI(boolean loadLastFile) {
         super("FIDELIO Analysis - Reference Image");
-        createContents();
+        this.loadLast = loadLastFile;
         Utils.loadProperties();
+        createContents();
     }
 
     private void createContents() {
@@ -110,12 +113,11 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         scrollPanePreview.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         contentPane.add(scrollPanePreview, BorderLayout.CENTER);
 
+        previewPanel = null;
+
         String file = Utils.getProperty(Utils.KEY_LASTFILE);
-        if (file != null && !file.isEmpty()) {
-            System.out.println("loaded image: " + file);
-            previewPanel = new ImagePanel(new File(file));
-            scrollPanePreview.setViewportView(previewPanel);
-            imgLoaded = true;
+        if (file != null && !file.isEmpty() && loadLast) {
+            setUpImagePreview(new File(file));
         }
 
         JScrollPane scrollPane = new JScrollPane();
@@ -127,13 +129,13 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         starControlPanel.setLayout(new BoxLayout(starControlPanel, BoxLayout.PAGE_AXIS));
         scrollPane.setViewportView(starControlPanel);
 
-        star1Panel = new StarPanel(0);
+        star1Panel = new StarPanel(0, loadLast);
         starControlPanel.add(star1Panel);
 
-        star2Panel = new StarPanel(1);
+        star2Panel = new StarPanel(1, loadLast);
         starControlPanel.add(star2Panel);
 
-        star3Panel = new StarPanel(2);
+        star3Panel = new StarPanel(2, loadLast);
         starControlPanel.add(star3Panel);
 
         starPanels[0] = star1Panel;
@@ -147,7 +149,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         createFileDialog();
         initListeners();
 
-//        pack();
+        pack();
         setVisible(true);
 
     }
@@ -176,15 +178,9 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     }
 
     private void initListeners() {
-        previewPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (selectStar[0] || selectStar[1] || selectStar[2]) {
-                    updateCoordinates(e.getX(), e.getY());
-                }
-            }
-        });
+        if (imgLoaded) {
+            previewPanel.addMouseListener(mouseAdapter);
+        }
     }
 
     private void openFileDialog(JFileChooser jFileChooser) {
@@ -196,14 +192,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
                 JOptionPane.showMessageDialog(new JFrame(), "Sorry. Something went wrong, try again.");
             } else {
                 if (jFileChooser == mFileChooserRefImg) {
-                    System.out.println("Applying Image");
-                    scrollPanePreview.removeAll();
-                    previewPanel = new ImagePanel(file);
-                    scrollPanePreview.setViewportView(previewPanel);
-                    scrollPanePreview.repaint();
-                    scrollPanePreview.revalidate();
-                    imgLoaded = true;
-                    Utils.setPropery(Utils.KEY_LASTFILE, file.toString());
+                    setUpImagePreview(file);
                 }
             }
         } else {
@@ -212,8 +201,20 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         }
     }
 
+    private void setUpImagePreview(File file){
+        System.out.println("Load image: " + file);
+        scrollPanePreview.removeAll();
+        previewPanel = new ImagePanel(file);
+        scrollPanePreview.setViewportView(previewPanel);
+        scrollPanePreview.repaint();
+        scrollPanePreview.revalidate();
+        imgLoaded = true;
+        Utils.setPropery(Utils.KEY_LASTFILE, file.toString());
+    }
+
     public static void warningDialog(String message) {
         JOptionPane.showMessageDialog(new JFrame(), message);
+        JOptionPane.showConfirmDialog(new JFrame(), message);
     }
 
     public static void changeCoordinates(int index) {
@@ -232,16 +233,29 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             selectStar = new boolean[3];
             warningDialog("Error: Out of bounds!");
             previewPanel.setCursor(Cursor.getDefaultCursor());
-        }else{
+        } else {
             previewPanel.setPosition(x, y, starIndex);
             starPanels[starIndex].setCoordinates(x, y);
-            if(!previewPanel.isVisible(starIndex)){
+            if (!previewPanel.isVisible(starIndex)) {
                 previewPanel.setVisible(true, starIndex);
             }
+            previewPanel.setCursor(Cursor.getDefaultCursor());
+            Utils.setPropery(Utils.KEY_POSITIONS[starIndex], String.format("%1$s,%2$s", x, y));
         }
     }
 
     // Listeners
+
+    MouseAdapter mouseAdapter = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            if (selectStar[0] || selectStar[1] || selectStar[2]) {
+                updateCoordinates(e.getX(), e.getY());
+            }
+        }
+    };
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAbort) {

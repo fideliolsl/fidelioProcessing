@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import java.util.StringTokenizer;
 
 public class StarPanel extends JPanel implements ActionListener, DocumentListener {
 
@@ -62,6 +63,7 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
     boolean isNumeric = false;
 
     int panelIndex = 0;
+    boolean loadLast = false;
 
     /**
      * Create the panel.
@@ -87,7 +89,8 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         getAbsoluteHeight();
     }
 
-    public StarPanel(int index) {
+    public StarPanel(int index, boolean loadLastFile) {
+        this.loadLast = loadLastFile;
         panelIndex = index;
         setBorder(new TitledBorder(new EmptyBorder(0, 0, 0, 0), String.format("Star %d", index), TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -239,6 +242,19 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         gbc_separator_1.gridx = 0;
         gbc_separator_1.gridy = 5;
         add(separator_1, gbc_separator_1);
+
+        String position = Utils.getProperty(Utils.KEY_POSITIONS[panelIndex]);
+        if(position != null && loadLast){
+            StringTokenizer stringTokenizer = new StringTokenizer(position, ",");
+            int x = Integer.parseInt(stringTokenizer.nextToken());
+            int y = Integer.parseInt(stringTokenizer.nextToken());
+            txtStarX.setText(String.valueOf(x));
+            txtStarY.setText(String.valueOf(y));
+            ReferenceUI.previewPanel.setPosition(x, y, panelIndex);
+            if (!ReferenceUI.previewPanel.isVisible(panelIndex)) {
+                ReferenceUI.previewPanel.setVisible(true, panelIndex);
+            }
+        }
 
         txtAzimuthDegree.getDocument().addDocumentListener(this);
         txtAzimuthMinute.getDocument().addDocumentListener(this);

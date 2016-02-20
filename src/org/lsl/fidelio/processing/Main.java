@@ -1,52 +1,41 @@
 package org.lsl.fidelio.processing;
 
+import org.lsl.fidelio.processing.reference.ReferenceUI;
+import org.lsl.fidelio.processing.util.Utils;
+
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        BufferedImage img = null;
+        char[] lastEdit = null;
+        boolean loadLast = false;
         try {
-            img = ImageIO.read(new File("test.bmp"));
-        } catch (IOException e) {
-
-        }
-        int height = img.getHeight();
-        int width = img.getWidth();
-
-        int amountPixel = 0;
-        int amountBlackPixel = 0;
-
-        int rgb;
-        int red;
-        int green;
-        int blue;
-
-        double percentPixel = 0;
-
-        System.out.println(height + "  " + width + " " + img.getRGB(30, 30));
-
-        for (int h = 1; h < height; h++) {
-            for (int w = 1; w < width; w++) {
-                amountPixel++;
-
-                rgb = img.getRGB(w, h);
-                red = (rgb >> 16) & 0x000000FF;
-                green = (rgb >> 8) & 0x000000FF;
-                blue = (rgb) & 0x000000FF;
-
-                if (red == 0 && green == 0 && blue == 0) {
-                    amountBlackPixel++;
-                }
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(Utils.propertyFile));
+            String s = bufferedReader.readLine();
+            System.out.println(s);
+            lastEdit = new char[s.length()-1];
+            s.getChars(1, s.length(), lastEdit,0);
+        }catch (Exception e){
+            System.err.println(e);
+        }String file = Utils.getProperty(Utils.KEY_LASTFILE);
+        if (file != null && !file.isEmpty()) {
+            int n = JOptionPane.showConfirmDialog(
+                    new JFrame(),
+                    "Open last reference image?\n" +
+                    "Date: " +
+                    String.copyValueOf(lastEdit),
+                    "Open last file?",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == 0) {
+                loadLast = true;
             }
         }
-        percentPixel = (double) amountBlackPixel / (double) amountPixel;
-
-        System.out.println("amount pixel: " + amountPixel);
-        System.out.println("amount black pixel: " + amountBlackPixel);
-        System.out.println("amount pixel black percent: " + percentPixel);
+        ReferenceUI ref = new ReferenceUI(loadLast);
     }
+
+
 }

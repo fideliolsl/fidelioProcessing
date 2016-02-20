@@ -1,2 +1,4 @@
 # ignore compiled files
 out/
+
+src/org/lsl/fidelio/processing/TestClass.java

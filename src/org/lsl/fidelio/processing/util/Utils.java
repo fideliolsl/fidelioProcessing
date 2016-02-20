@@ -70,10 +70,16 @@ public class Utils {
     private static OutputStream outputStream = null;
     private static InputStream inputStream = null;
 
-    private static Path projectDirectory = Paths.get(System.getProperty("user.home") + File.separator + ".fidelio");
-    private static File propertyFile = new File(projectDirectory + File.separator + "config.properties");
+    public static Path projectDirectory = Paths.get(System.getProperty("user.home") + File.separator + ".fidelio");
+    public static File propertyFile = new File(projectDirectory + File.separator + "config.properties");
 
     public static String KEY_LASTFILE = "last_file";
+    public static String[] KEY_POSITIONS = {"star0xy","star1xy","star2xy"};
+    public static String[][] KEY_DISTANCES = {
+            {"degree01","minute01","second01"},
+            {"degree02","minute02","second02"},
+            {"degree12","minute12","second12"}
+    };
 
     /*
      * Get the extension of a file.
@@ -112,7 +118,6 @@ public class Utils {
         if (d == (int) d) {
             return String.format(string + " %d", (int) d);
         } else {
-            System.out.println(d);
             return String.format(string + " %s", new DecimalFormat("#.##").format(d));
         }
     }

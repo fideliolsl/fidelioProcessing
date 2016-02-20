@@ -19,14 +19,10 @@
 package org.lsl.fidelio.processing;
 
 /**
- * Created by jonas on 19.02.16.
+ * Created by jonas on 20.02.16.
  */
 public class TestClass {
     public static void main(String[] args){
-        TestClass t = new TestClass();
-    }
-    public TestClass() {
-        boolean[] b = new boolean[3];
-        System.out.println(b[1]);
+
     }
 }
