@@ -1,13 +1,13 @@
 package org.lsl.fidelio.processing.util.ui;
 
-import org.lsl.fidelio.processing.reference.UserInterfaceReference;
+import org.lsl.fidelio.processing.util.Utils;
+import org.lsl.fidelio.processing.util.ui.pointers.Circle;
 import org.lsl.fidelio.processing.util.ui.pointers.Star;
 import org.lsl.fidelio.processing.util.ui.pointers.StarDistancesPointer;
-import org.lsl.fidelio.processing.util.ui.pointers.Zenith;
+import org.lsl.fidelio.processing.util.ui.pointers.Zenit;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,15 +22,17 @@ public class ImagePanel extends JPanel {
     public static int STAR_3 = 2;
     public static int ZENITH = 3;
 
-    int[][] position = {
-            {0, 0},          // Star 1
-            {0, 0},          // Star 2
-            {0, 0},          // Star 3
-            {0, 0}           // Zenith
+    public int[][] position = {
+            {0, 0},         // Star 1
+            {0, 0},         // Star 2
+            {0, 0},         // Star 3
+            {0, 0},         // Zenit
     };
-    boolean[] visibility = {
-            false, false, false, false
-            //      Star1, Star2, Star3, Zenith
+    public double[] radius = {
+            0,0,0
+    };
+    public boolean[] visibility = {
+            false, false, false, false, false//      Star1, Star2, Star3, Zenit
     };
 
     double RotationRadian = 0;
@@ -43,9 +45,8 @@ public class ImagePanel extends JPanel {
             image = ImageIO.read(file);
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            UserInterfaceReference.warningDialog("Cannot load image");
+            Utils.warningDialog("Cannot load image");
         }
-
     }
 
     public void paintComponent(Graphics g) {
@@ -57,9 +58,17 @@ public class ImagePanel extends JPanel {
             g2d.rotate(0);
             g.drawImage(image, 0, 0, (int) image.getWidth(), (int) image.getHeight(),
                     this);
+
+
             if (visibility[3]) {
-                new Zenith(g, color, "z", 0, position[3]);
+                new Zenit(g, color, "z", 0, position[3]);
             }
+            if (visibility[4]) {
+                new Circle(g, color, position[0], radius[0]);
+                new Circle(g, color, position[1], radius[1]);
+                new Circle(g, color, position[2], radius[2]);
+            }
+
             if (visibility[0]) {
                 new Star(g, color, "0", position[0]);
             }
@@ -68,7 +77,6 @@ public class ImagePanel extends JPanel {
             }
             if (visibility[2]) {
                 new Star(g, color, "2", position[2]);
-
             }
             if(visibility[0] && visibility[1]){
                 new StarDistancesPointer(g, color, "0 - 1", position[0], position[1]);
@@ -103,6 +111,10 @@ public class ImagePanel extends JPanel {
         int[] i = {x, y};
         position[index]=i;
         repaint();
+    }
+
+    public void setRadius(double[] radius) {
+        this.radius = radius;
     }
 
     public void rotate(double degree) {

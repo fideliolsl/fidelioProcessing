@@ -45,7 +45,7 @@ public class VideoFilter extends FileFilter {
 
         String extension = Utils.getExtension(f);
         if (extension != null) {
-            if (extension.equals(Utils.avi)) {
+            if (extension.equals(Utils.avi)||extension.equals(Utils.mov)) {
                 return true;
             } else {
                 return false;

@@ -5,8 +5,8 @@ import java.awt.*;
 /**
  * Created by jonas on 18.02.16.
  */
-public class Zenith {
-    public Zenith(Graphics g, Color color, String description, int rotation, int[] position) {
+public class Zenit {
+    public Zenit(Graphics g, Color color, String description, int rotation, int[] position) {
         int x = position[0];
         int y = position[1];
         Graphics2D g2d = (Graphics2D) g;

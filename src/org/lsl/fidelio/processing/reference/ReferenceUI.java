@@ -18,17 +18,14 @@
 
 package org.lsl.fidelio.processing.reference;
 
+import org.lsl.fidelio.processing.Main;
 import org.lsl.fidelio.processing.util.*;
 import org.lsl.fidelio.processing.util.ui.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 
-import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -42,7 +39,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     private StarPanel star2Panel;
     private StarPanel star3Panel;
     private static StarPanel[] starPanels = new StarPanel[3];
-    private StarDistances starDistancesPanel;
+    private static StarDistances starDistancesPanel;
     private JButton btnAbort;
     private JButton btnNext;
     private JMenuItem menuItemFileOpen;
@@ -51,46 +48,36 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
 
     private static boolean imgLoaded = false;
     private static boolean[] selectStar = {false, false, false};
-
-    public static boolean loadLast = false;
+    private static boolean loadLast = false;
 
     private static JFileChooser mFileChooserRefImg = new JFileChooser();
 
-    /**
-     * Launch the application.
-     */
-    /*public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ReferenceUI frame = new ReferenceUI();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-*/
-    /**
-     * Create the frame.
-     */
     public ReferenceUI(boolean loadLastFile) {
         super("FIDELIO Analysis - Reference Image");
         this.loadLast = loadLastFile;
-        Utils.loadProperties();
         createContents();
     }
 
     private void createContents() {
-
         setMinimumSize(new Dimension(720, 480));
+        setPreferredSize(new Dimension(1120, 575));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 499, 473);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                for (int i = 0; i < starPanels.length; i++) {
+                    starPanels[i].saveValues();
+                }
+                Main.saveExit();
+            }
+        });
 
         JPanel controlPanel = new JPanel();
         controlPanel.setBorder(new MatteBorder(1, 0, 0, 0, SystemColor.windowBorder));
@@ -106,6 +93,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         rightControlPanel.add(btnAbort);
 
         btnNext = new JButton("Next");
+        btnNext.addActionListener(this);
         rightControlPanel.add(btnNext);
 
         scrollPanePreview = new JScrollPane();
@@ -113,11 +101,11 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         scrollPanePreview.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         contentPane.add(scrollPanePreview, BorderLayout.CENTER);
 
-        previewPanel = null;
-
-        String file = Utils.getProperty(Utils.KEY_LASTFILE);
-        if (file != null && !file.isEmpty() && loadLast) {
-            setUpImagePreview(new File(file));
+        if (loadLast) {
+            String file = Utils.getProperty(Utils.KEY_LASTFILE);
+            if (file != null && !file.isEmpty()) {
+                setUpImagePreview(new File(file));
+            }
         }
 
         JScrollPane scrollPane = new JScrollPane();
@@ -142,7 +130,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         starPanels[1] = star2Panel;
         starPanels[2] = star3Panel;
 
-        starDistancesPanel = new StarDistances();
+        starDistancesPanel = new StarDistances(loadLast);
         starControlPanel.add(starDistancesPanel);
 
         createMenu();
@@ -189,9 +177,10 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             File file = jFileChooser.getSelectedFile();
             if (!file.exists()) {
                 System.out.println("File does not exist");
-                JOptionPane.showMessageDialog(new JFrame(), "Sorry. Something went wrong, try again.");
+                Utils.warningDialog("Sorry. Something went wrong, try again.");
             } else {
                 if (jFileChooser == mFileChooserRefImg) {
+                    System.out.println("Applying Image");
                     setUpImagePreview(file);
                 }
             }
@@ -201,29 +190,37 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         }
     }
 
-    private void setUpImagePreview(File file){
-        System.out.println("Load image: " + file);
-        scrollPanePreview.removeAll();
+    private void setUpImagePreview(File file) {
+        System.out.println("loaded image: " + file);
         previewPanel = new ImagePanel(file);
         scrollPanePreview.setViewportView(previewPanel);
-        scrollPanePreview.repaint();
-        scrollPanePreview.revalidate();
-        imgLoaded = true;
+        if (!imgLoaded) {
+            imgLoaded = true;
+            initListeners();
+        }
         Utils.setPropery(Utils.KEY_LASTFILE, file.toString());
     }
 
-    public static void warningDialog(String message) {
-        JOptionPane.showMessageDialog(new JFrame(), message);
-        JOptionPane.showConfirmDialog(new JFrame(), message);
-    }
-
-    public static void changeCoordinates(int index) {
+    public static void changeCoordinates(int index, boolean change) {
         if (imgLoaded) {
-            selectStar = new boolean[3];
-            selectStar[index] = true;
-            previewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            if (change) {
+                selectStar = new boolean[3];
+                selectStar[index] = true;
+                starPanels[0].changeBtnState(false);
+                starPanels[1].changeBtnState(false);
+                starPanels[2].changeBtnState(false);
+
+                starPanels[index].changeBtnState(true);
+                previewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            } else {
+                selectStar = new boolean[3];
+                starPanels[0].changeBtnState(true);
+                starPanels[1].changeBtnState(true);
+                starPanels[2].changeBtnState(true);
+                previewPanel.setCursor(Cursor.getDefaultCursor());
+            }
         } else {
-            warningDialog("Open image first (File > Open)");
+            Utils.warningDialog("Open image first (File > Open)");
         }
     }
 
@@ -231,7 +228,10 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         int starIndex = Utils.getIndexOfValue(selectStar, true);
         if (x > previewPanel.getImageWidth() || y > previewPanel.getImageHeight()) {
             selectStar = new boolean[3];
-            warningDialog("Error: Out of bounds!");
+            starPanels[0].changeBtnState(true);
+            starPanels[1].changeBtnState(true);
+            starPanels[2].changeBtnState(true);
+            Utils.warningDialog("Error: Out of bounds!");
             previewPanel.setCursor(Cursor.getDefaultCursor());
         } else {
             previewPanel.setPosition(x, y, starIndex);
@@ -239,9 +239,35 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             if (!previewPanel.isVisible(starIndex)) {
                 previewPanel.setVisible(true, starIndex);
             }
-            previewPanel.setCursor(Cursor.getDefaultCursor());
             Utils.setPropery(Utils.KEY_POSITIONS[starIndex], String.format("%1$s,%2$s", x, y));
         }
+    }
+
+    private void getRatio() {
+        if (imgLoaded &&
+                starPanels[0].isNumeric() &&
+                starPanels[1].isNumeric() &&
+                starPanels[2].isNumeric() &&
+                starDistancesPanel.isNumeric() &&
+                Utils.getIndexOfValue(previewPanel.visibility, false) == 3) {
+            double[] distances = {starDistancesPanel.getAbsoluteDistance01(),
+                    starDistancesPanel.getAbsoluteDistance02(),
+                    starDistancesPanel.getAbsoluteDistance12()};
+
+              CalculateZenitNorth calculateZenithNorth = new CalculateZenitNorth(previewPanel.position, distances);
+        } else {
+            Utils.warningDialog("Fill in every parameter!");
+        }
+    }
+
+    public static void setCircles(double ratio){
+        double[] radius = {
+                (90 -starPanels[0].getAbsoluteHeight()) * ratio,
+                (90 -starPanels[1].getAbsoluteHeight()) * ratio,
+                (90 -starPanels[2].getAbsoluteHeight()) * ratio
+        };
+        previewPanel.setRadius(radius);
+        previewPanel.setVisible(true, 4);
     }
 
     // Listeners
@@ -259,12 +285,15 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAbort) {
-            dispose();
+            for (int i = 0; i < starPanels.length; i++) {
+                starPanels[i].saveValues();
+            }
+            Main.saveExit();
         } else if (e.getSource() == menuItemFileOpen) {
             openFileDialog(mFileChooserRefImg);
 
         } else if (e.getSource() == btnNext) {
-            // TODO: calculate necessary value.
+            getRatio();
         }
     }
 

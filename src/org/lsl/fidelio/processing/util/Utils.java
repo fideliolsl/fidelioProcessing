@@ -57,7 +57,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.Properties;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 public class Utils {
 
@@ -65,6 +65,7 @@ public class Utils {
     public final static String jpg = "jpg";
     public final static String png = "png";
     public final static String avi = "avi";
+    public final static String mov = "mov";
 
     private static Properties prop = new Properties();
     private static OutputStream outputStream = null;
@@ -74,12 +75,13 @@ public class Utils {
     public static File propertyFile = new File(projectDirectory + File.separator + "config.properties");
 
     public static String KEY_LASTFILE = "last_file";
-    public static String[] KEY_POSITIONS = {"star0xy","star1xy","star2xy"};
-    public static String[][] KEY_DISTANCES = {
-            {"degree01","minute01","second01"},
-            {"degree02","minute02","second02"},
-            {"degree12","minute12","second12"}
+    public static String[] KEY_POSITIONS = {"star0xy", "star1xy", "star2xy"};
+    public static String[][] KEY_STARPARAMS = {
+            {"az0", "Height0"},
+            {"az1", "height1"},
+            {"az2", "height2"}
     };
+    public static String[] KEY_DISTANCES = {"distance01", "distance02", "distance12"};
 
     /*
      * Get the extension of a file.
@@ -133,7 +135,7 @@ public class Utils {
                 prop.store(outputStream, null);
             } catch (Exception e) {
                 e.printStackTrace();
-                ReferenceUI.warningDialog("Error while creating property file.");
+                warningDialog("Error while creating property file.");
             } finally {
                 if (outputStream != null) {
                     try {
@@ -144,8 +146,6 @@ public class Utils {
                 }
             }
         }
-
-        System.getProperty("user.home");
     }
 
     public static void setPropery(String key, String value) {
@@ -155,7 +155,7 @@ public class Utils {
             prop.store(outputStream, null);
         } catch (Exception e) {
             e.printStackTrace();
-            ReferenceUI.warningDialog("Error while creating property file.");
+            warningDialog("Error while creating property file.");
         } finally {
             if (outputStream != null) {
                 try {
@@ -187,10 +187,14 @@ public class Utils {
         return s;
     }
 
-    public static int getIndexOfValue(boolean[] array, boolean value){
+    public static void warningDialog(String message) {
+        JOptionPane.showMessageDialog(new JFrame(), message);
+    }
+
+    public static int getIndexOfValue(boolean[] array, boolean value) {
         int index = -1;
-        for (int i = 0; i < array.length; i++){
-            if (array[i] == value){
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == value) {
                 index = i;
                 break;
             }

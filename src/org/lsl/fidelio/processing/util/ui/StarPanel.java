@@ -1,6 +1,6 @@
 package org.lsl.fidelio.processing.util.ui;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -9,16 +9,12 @@ import java.awt.Color;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
 import java.awt.Insets;
-import javax.swing.JButton;
 
 import org.lsl.fidelio.processing.reference.ReferenceUI;
 import org.lsl.fidelio.processing.util.Utils;
 
-import javax.swing.JSeparator;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,13 +26,13 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
 
     JTextField txtStarX;
     JTextField txtStarY;
-    JButton btnEdit;
-    JPanel panelAzimuth;
-    JTextField txtAzimuthDegree;
+    JToggleButton btnEdit;
+    JPanel panelAzimut;
+    JTextField txtAzimutDegree;
     JLabel lblAzD;
-    JTextField txtAzimuthMinute;
+    JTextField txtAzimutMinute;
     JLabel lblAzM;
-    JTextField txtAzimuthSecond;
+    JTextField txtAzimutSecond;
     JLabel lblAzS;
     JSeparator separator;
     JPanel panelHeight;
@@ -52,15 +48,20 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
     JLabel lblAzValue;
     JLabel lblHeightValue;
 
+    JTextField[][] jTextFields = new JTextField[2][3];
+
     String value = "=";
 
     double calculatedHeight = 0;
-    double calculatedAzimuth = 0;
+    double calculatedAzimut = 0;
 
     String colorErrorHEX = "0xad8c43";
     String colorNormalHEX = "0x000000";
 
     boolean isNumeric = false;
+    public boolean isNumeric() {
+        return isNumeric;
+    }
 
     int panelIndex = 0;
     boolean loadLast = false;
@@ -84,7 +85,7 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         getAbsoluteValuesHelper();
     }
 
-    private void getAbsoluteValuesHelper(){
+    private void getAbsoluteValuesHelper() {
         getAbsoluteAz();
         getAbsoluteHeight();
     }
@@ -118,7 +119,7 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         add(txtStarX, gbc_txtStarX);
         txtStarX.setColumns(10);
 
-        btnEdit = new JButton("Edit");
+        btnEdit = new JToggleButton("Edit");
         GridBagConstraints gbc_btnEdit = new GridBagConstraints();
         gbc_btnEdit.gridheight = 2;
         gbc_btnEdit.insets = new Insets(0, 0, 5, 0);
@@ -155,45 +156,45 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         gbc_separator.gridy = 2;
         add(separator, gbc_separator);
 
-        panelAzimuth = new JPanel();
-        GridBagConstraints gbc_panelAzimuth = new GridBagConstraints();
-        gbc_panelAzimuth.gridwidth = 3;
-        gbc_panelAzimuth.insets = new Insets(0, 0, 5, 0);
-        gbc_panelAzimuth.anchor = GridBagConstraints.NORTHWEST;
-        gbc_panelAzimuth.gridx = 0;
-        gbc_panelAzimuth.gridy = 3;
-        add(panelAzimuth, gbc_panelAzimuth);
-        panelAzimuth.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panelAzimut = new JPanel();
+        GridBagConstraints gbc_panelAzimut = new GridBagConstraints();
+        gbc_panelAzimut.gridwidth = 3;
+        gbc_panelAzimut.insets = new Insets(0, 0, 5, 0);
+        gbc_panelAzimut.anchor = GridBagConstraints.NORTHWEST;
+        gbc_panelAzimut.gridx = 0;
+        gbc_panelAzimut.gridy = 3;
+        add(panelAzimut, gbc_panelAzimut);
+        panelAzimut.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        lblAz = new JLabel("Azimuth:");
-        panelAzimuth.add(lblAz);
+        lblAz = new JLabel("Azimut:");
+        panelAzimut.add(lblAz);
 
-        txtAzimuthDegree = new JTextField();
-        txtAzimuthDegree.setText("0");
-        panelAzimuth.add(txtAzimuthDegree);
-        txtAzimuthDegree.setColumns(4);
+        txtAzimutDegree = new JTextField();
+        txtAzimutDegree.setText("0");
+        panelAzimut.add(txtAzimutDegree);
+        txtAzimutDegree.setColumns(4);
 
         lblAzD = new JLabel("°");
-        panelAzimuth.add(lblAzD);
+        panelAzimut.add(lblAzD);
 
-        txtAzimuthMinute = new JTextField();
-        txtAzimuthMinute.setText("0");
-        txtAzimuthMinute.setColumns(4);
-        panelAzimuth.add(txtAzimuthMinute);
+        txtAzimutMinute = new JTextField();
+        txtAzimutMinute.setText("0");
+        txtAzimutMinute.setColumns(4);
+        panelAzimut.add(txtAzimutMinute);
 
         lblAzM = new JLabel("'");
-        panelAzimuth.add(lblAzM);
+        panelAzimut.add(lblAzM);
 
-        txtAzimuthSecond = new JTextField();
-        txtAzimuthSecond.setText("0");
-        panelAzimuth.add(txtAzimuthSecond);
-        txtAzimuthSecond.setColumns(4);
+        txtAzimutSecond = new JTextField();
+        txtAzimutSecond.setText("0");
+        panelAzimut.add(txtAzimutSecond);
+        txtAzimutSecond.setColumns(4);
 
         lblAzS = new JLabel("\"");
-        panelAzimuth.add(lblAzS);
+        panelAzimut.add(lblAzS);
 
         this.lblAzValue = new JLabel(value + " ?");
-        this.panelAzimuth.add(this.lblAzValue);
+        this.panelAzimut.add(this.lblAzValue);
 
         panelHeight = new JPanel();
         GridBagConstraints gbc_panelHeight = new GridBagConstraints();
@@ -243,8 +244,30 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         gbc_separator_1.gridy = 5;
         add(separator_1, gbc_separator_1);
 
+        jTextFields[0][0] = txtAzimutDegree;
+        jTextFields[0][1] = txtAzimutMinute;
+        jTextFields[0][2] = txtAzimutSecond;
+
+        jTextFields[1][0] = txtHeightDegree;
+        jTextFields[1][1] = txtHeightMinute;
+        jTextFields[1][2] = txtHeightSecond;
+
+        if (loadLast) {
+            loadLastParams();
+        }
+
+        txtAzimutDegree.getDocument().addDocumentListener(this);
+        txtAzimutMinute.getDocument().addDocumentListener(this);
+        txtAzimutSecond.getDocument().addDocumentListener(this);
+
+        txtHeightDegree.getDocument().addDocumentListener(this);
+        txtHeightMinute.getDocument().addDocumentListener(this);
+        txtHeightSecond.getDocument().addDocumentListener(this);
+    }
+
+    void loadLastParams() {
         String position = Utils.getProperty(Utils.KEY_POSITIONS[panelIndex]);
-        if(position != null && loadLast){
+        if (position != null && !position.isEmpty()) {
             StringTokenizer stringTokenizer = new StringTokenizer(position, ",");
             int x = Integer.parseInt(stringTokenizer.nextToken());
             int y = Integer.parseInt(stringTokenizer.nextToken());
@@ -255,45 +278,49 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
                 ReferenceUI.previewPanel.setVisible(true, panelIndex);
             }
         }
-
-        txtAzimuthDegree.getDocument().addDocumentListener(this);
-        txtAzimuthMinute.getDocument().addDocumentListener(this);
-        txtAzimuthSecond.getDocument().addDocumentListener(this);
-
-        txtHeightDegree.getDocument().addDocumentListener(this);
-        txtHeightMinute.getDocument().addDocumentListener(this);
-        txtHeightSecond.getDocument().addDocumentListener(this);
+        for (int i = 0; i < 2; i++) {
+            String params = Utils.getProperty(Utils.KEY_STARPARAMS[panelIndex][i]);
+            if (params != null && !params.isEmpty()) {
+                StringTokenizer stringTokenizer = new StringTokenizer(params, ",");
+                for (int j = 0; j < 3; j++) {
+                    jTextFields[i][j].setText(stringTokenizer.nextToken());
+                }
+            }
+        }
+        getAbsoluteValuesHelper();
     }
 
-    public void setCoordinates(int x, int y){
+    public void setCoordinates(int x, int y) {
         txtStarX.setText(String.valueOf(x));
         txtStarY.setText(String.valueOf(y));
     }
 
     double getAbsoluteAz() {
-        calculatedAzimuth = 0;
+        calculatedAzimut = 0;
         try {
-            calculatedAzimuth = Double.parseDouble(txtAzimuthDegree.getText())
-                    + (Double.parseDouble(txtAzimuthMinute.getText()) / 60
-                    + (Double.parseDouble(txtAzimuthSecond.getText()) / 60) / 60);
+            calculatedAzimut = Double.parseDouble(txtAzimutDegree.getText())
+                    + (Double.parseDouble(txtAzimutMinute.getText()) / 60
+                    + (Double.parseDouble(txtAzimutSecond.getText()) / 60) / 60);
             lblAz.setForeground(Color.decode(colorNormalHEX));
             isNumeric = true;
+            saveValues();
         } catch (Exception e) {
             //System.err.println(e);
             lblAz.setForeground(Color.decode(colorErrorHEX));
             isNumeric = false;
         }
-        lblAzValue.setText(Utils.numberFormatHelper(value, calculatedAzimuth));
-        return calculatedAzimuth;
+        lblAzValue.setText(Utils.numberFormatHelper(value, calculatedAzimut));
+        return calculatedAzimut;
     }
 
-    double getAbsoluteHeight() {
+    public double getAbsoluteHeight() {
         calculatedHeight = 0;
         try {
             calculatedHeight = Double.parseDouble(txtHeightDegree.getText())
                     + (Double.parseDouble(txtHeightMinute.getText()) / 60
                     + (Double.parseDouble(txtHeightSecond.getText()) / 60) / 60);
             lblHeight.setForeground(Color.decode(colorNormalHEX));
+            saveValues();
         } catch (NumberFormatException e) {
             // System.err.println(e.getMessage());
             lblHeight.setForeground(Color.decode(colorErrorHEX));
@@ -304,8 +331,26 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         return calculatedHeight;
     }
 
+    public void saveValues() {
+        try {
+            Utils.setPropery(Utils.KEY_STARPARAMS[panelIndex][0],
+                    jTextFields[0][0].getText() +
+                            "," + jTextFields[0][1].getText() +
+                            "," + jTextFields[0][2].getText());
+
+            Utils.setPropery(Utils.KEY_STARPARAMS[panelIndex][1],
+                    jTextFields[1][0].getText() + "," + jTextFields[1][1].getText() + "," + jTextFields[1][2].getText());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void changeBtnState(boolean state){
+        btnEdit.setEnabled(state);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        ReferenceUI.changeCoordinates(panelIndex);
+        ReferenceUI.changeCoordinates(panelIndex, btnEdit.isSelected());
     }
 }

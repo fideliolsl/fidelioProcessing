@@ -13,7 +13,7 @@ public class Star {
         g.drawOval(x - 10, y - 10, 20, 20);
         g.drawLine(x, y + 10, x, y - 10);
         g.drawLine(x - 10, y, x + 10, y);
-        g.drawString(description, x + 15, y + 15);
+        g.drawString(description, x + 15, y - 15);
 
     }
 }
