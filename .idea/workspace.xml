@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4da65a72-1c48-4b88-a365-56b295423a89" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/VideoUI.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/CalculateZenitNorth.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/pointers/Zenit.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/CalculateZenithNorth.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/UserInterfaceReference.form" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/UserInterfaceReference.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/pointers/Zenith.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/pointers/Circle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LSL_FIDELIO.iml" afterPath="$PROJECT_DIR$/LSL_FIDELIO.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/Main.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/ReferenceUI.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/ReferenceUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/Utils.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/VideoFilter.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/VideoFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/ImagePanel.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/ImagePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/StarDistances.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/StarDistances.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/StarPanel.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/StarPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/pointers/Star.java" afterPath="$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/pointers/Star.java" />
     </list>
     <ignored path="LSL_FIDELIO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -87,7 +71,7 @@
       <file leaf-file-name="VideoUI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/VideoUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.25858122">
+            <state vertical-scroll-proportion="0.8177677">
               <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -228,7 +212,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="822" />
+    <option name="height" value="825" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -255,8 +239,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -321,6 +303,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -919,11 +903,13 @@
       <workItem from="1455912221784" duration="2646000" />
       <workItem from="1455962232078" duration="38203000" />
       <workItem from="1456044647815" duration="3050000" />
+      <workItem from="1456344957404" duration="244000" />
+      <workItem from="1456561105578" duration="269000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87961000" />
+    <option name="totallyTimeSpent" value="88474000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -935,8 +921,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="822" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1440" height="825" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -945,10 +931,10 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36164382" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36152798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295325" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16380544" sideWeight="0.49535194" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16380544" sideWeight="0.49535194" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -986,6 +972,85 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/TestClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="49" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/VideoUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/CalculateZenitNorth.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/pointers/Circle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#1128#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/ImagePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="58" selection-start-line="68" selection-start-column="58" selection-end-line="68" selection-end-column="58" />
+          <folding>
+            <element signature="e#2998#2999#0" expanded="true" />
+            <element signature="e#3038#3039#0" expanded="true" />
+            <element signature="e#3071#3072#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+            <element signature="e#3273#3274#0" expanded="true" />
+            <element signature="e#3313#3314#0" expanded="true" />
+            <element signature="e#3493#3494#0" expanded="true" />
+            <element signature="e#3529#3530#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/util/ui/StarPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="313" column="0" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1661#1662#0" expanded="true" />
+            <element signature="e#1693#1694#0" expanded="true" />
+            <element signature="e#1853#1854#0" expanded="true" />
+            <element signature="e#1894#1895#0" expanded="true" />
+            <element signature="e#1957#1958#0" expanded="true" />
+            <element signature="e#1998#1999#0" expanded="true" />
+            <element signature="e#2062#2063#0" expanded="true" />
+            <element signature="e#2103#2104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/reference/ReferenceUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1179,7 +1244,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33268103">
           <caret line="2430" column="26" selection-start-line="2430" selection-start-column="26" selection-end-line="2430" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1222,7 +1286,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-20.19192">
           <caret line="312" column="13" selection-start-line="312" selection-start-column="13" selection-end-line="312" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1230,10 +1293,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3212121">
           <caret line="224" column="25" selection-start-line="224" selection-start-column="25" selection-end-line="224" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="method#createContents#0;class#StarDistances#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1248,7 +1307,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="775" column="19" selection-start-line="775" selection-start-column="19" selection-end-line="775" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1405,7 +1463,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/lsl/fidelio/processing/VideoUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25858122">
+        <state vertical-scroll-proportion="0.8177677">
           <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
