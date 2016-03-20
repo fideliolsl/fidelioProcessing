@@ -21,6 +21,7 @@ package org.lsl.fidelio.processing.reference;
 import org.lsl.fidelio.processing.Main;
 import org.lsl.fidelio.processing.util.*;
 import org.lsl.fidelio.processing.util.ui.*;
+import org.lsl.fidelio.processing.video.VideoUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -49,6 +50,9 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     private static boolean imgLoaded = false;
     private static boolean[] selectStar = {false, false, false};
     private static boolean loadLast = false;
+
+    // Old method
+    private double pixelPerDegreeRatio = 0;
 
     private static JFileChooser mFileChooserRefImg = new JFileChooser();
 
@@ -243,7 +247,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         }
     }
 
-    private void getRatio() {
+    private void getZenit() {
         if (imgLoaded &&
                 starPanels[0].isNumeric() &&
                 starPanels[1].isNumeric() &&
@@ -254,13 +258,14 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
                     starDistancesPanel.getAbsoluteDistance02(),
                     starDistancesPanel.getAbsoluteDistance12()};
 
-              CalculateZenitNorth calculateZenithNorth = new CalculateZenitNorth(previewPanel.position, distances);
+                pixelPerDegreeRatio = CalculateZenitNorth.pixelPerDegreeeRatio(previewPanel.position, distances);
+                setZenit(pixelPerDegreeRatio);
         } else {
             Utils.warningDialog("Fill in every parameter!");
         }
     }
 
-    public static void setCircles(double ratio){
+    private void setZenit(double ratio){
         double[] radius = {
                 (90 -starPanels[0].getAbsoluteHeight()) * ratio,
                 (90 -starPanels[1].getAbsoluteHeight()) * ratio,
@@ -268,6 +273,9 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         };
         previewPanel.setRadius(radius);
         previewPanel.setVisible(true, 4);
+        VideoUI vid = new VideoUI();
+        vid.setVisible(true);
+        dispose();
     }
 
     // Listeners
@@ -293,7 +301,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             openFileDialog(mFileChooserRefImg);
 
         } else if (e.getSource() == btnNext) {
-            getRatio();
+            getZenit();
         }
     }
 
