@@ -237,6 +237,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             starPanels[2].changeBtnState(true);
             Utils.warningDialog("Error: Out of bounds!");
             previewPanel.setCursor(Cursor.getDefaultCursor());
+
         } else {
             previewPanel.setPosition(x, y, starIndex);
             starPanels[starIndex].setCoordinates(x, y);
@@ -248,25 +249,64 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     }
 
     private void getZenit() {
-        if (imgLoaded &&
+        /*if (imgLoaded &&
                 starPanels[0].isNumeric() &&
                 starPanels[1].isNumeric() &&
                 starPanels[2].isNumeric() &&
                 starDistancesPanel.isNumeric() &&
                 Utils.getIndexOfValue(previewPanel.visibility, false) == 3) {
+
             double[] distances = {starDistancesPanel.getAbsoluteDistance01(),
                     starDistancesPanel.getAbsoluteDistance02(),
                     starDistancesPanel.getAbsoluteDistance12()};
 
-                pixelPerDegreeRatio = CalculateZenitNorth.pixelPerDegreeeRatio(previewPanel.position, distances);
-                setZenit(pixelPerDegreeRatio);
+            double[] az = {starPanels[0].getAbsoluteAz(),
+                    starPanels[1].getAbsoluteAz(),
+                    starPanels[2].getAbsoluteAz()};
+
+            //pixelPerDegreeRatio = CalculateZenitNorth.pixelPerDegreeeRatio(previewPanel.position, distances);
+
+            double[][][] z = CalculateZenitNorth.getZenit(previewPanel.position, distances, az);
+
+            previewPanel.setPosition((int)z[0][0][0], (int)z[0][0][1], 3);
+            previewPanel.setPosition((int)z[0][1][0], (int)z[0][1][1], 4);
+
+            previewPanel.setPosition((int)z[1][0][0], (int)z[0][0][1], 5);
+            previewPanel.setPosition((int)z[1][1][0], (int)z[0][1][1], 6);
+
+            previewPanel.setPosition((int)z[2][0][0], (int)z[0][0][1], 7);
+            previewPanel.setPosition((int)z[2][1][0], (int)z[0][1][1], 8);
+
+            for (int i = 3; i < 9; i++) {
+            previewPanel.setVisible(true, i);
+            }
+
+            setZenit(pixelPerDegreeRatio);
         } else {
             Utils.warningDialog("Fill in every parameter!");
-        }
+        }*/
+
+        double[] distances = {starDistancesPanel.getAbsoluteDistance01(),
+                starDistancesPanel.getAbsoluteDistance02(),
+                starDistancesPanel.getAbsoluteDistance12()};
+
+        double[] az = {starPanels[0].getAbsoluteAz(),
+                starPanels[1].getAbsoluteAz(),
+                starPanels[2].getAbsoluteAz()};
+
+        double[][] z = CalculateZenitNorth.getZenit(previewPanel.position, distances, az);
+
+        previewPanel.setPosition((int)z[0][0], (int)z[0][1], 3);
+        previewPanel.setPosition((int)z[1][0], (int)z[1][1], 4);
+
+        previewPanel.setVisible(true, 3);
+        previewPanel.setVisible(true, 4);
+
     }
 
-    private void setZenit(double ratio){
-        double[] radius = {
+    private void setZenit(double ratio) {
+
+        /*double[] radius = {
                 (90 -starPanels[0].getAbsoluteHeight()) * ratio,
                 (90 -starPanels[1].getAbsoluteHeight()) * ratio,
                 (90 -starPanels[2].getAbsoluteHeight()) * ratio
@@ -275,7 +315,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         previewPanel.setVisible(true, 4);
         VideoUI vid = new VideoUI();
         vid.setVisible(true);
-        dispose();
+        dispose();*/
     }
 
     // Listeners

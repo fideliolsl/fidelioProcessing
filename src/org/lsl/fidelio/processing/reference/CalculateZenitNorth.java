@@ -30,16 +30,10 @@ public class CalculateZenitNorth {
         return pixelperheight;
     }
 
-    public static double getZenit(int[][] coordinates, double[] distancesZenit, double[] distancesStar, double[] azStar) {
+    public static double[][] getZenit(int[][] coordinates, double[] distancesZenit, double[] azStar) {
 
-        // coordinates = {{Xa, Ya},{Xb, Yb},{Xc, Yc}}
-        // distancesZenit = {a,b,c} (distances to zenith in degree)
-        // distancesStar = {ab, ac, bc}
-        // azStar = {azA, azB, azC}
-
-        double a = distancesZenit[0];
-        double b = distancesZenit[1];
-        double c = distancesZenit[2];
+        double a = 90-distancesZenit[0];
+        double b = 90-distancesZenit[1];
 
         int xA = coordinates[0][0];
         int yA = coordinates[0][1];
@@ -47,29 +41,56 @@ public class CalculateZenitNorth {
         int xB = coordinates[1][0];
         int yB = coordinates[1][1];
 
-        int xC = coordinates[2][0];
-        int yC = coordinates[2][1];
-
         int dXAB = xB - xA;
         int dYAB = yB - yA;
 
-        double AB = distancesStar[0];
-        double AC = distancesStar[1];
-        double BC = distancesStar[2];
+        double AB = Math.sqrt(Math.pow(coordinates[0][0] - coordinates[1][0], 2) +
+                Math.pow(coordinates[0][1] - coordinates[1][1], 2));
 
-        double azA = azStar[0];
-        double azB = azStar[1];
-        double azC = azStar[2];
+        double azA = Math.toRadians(azStar[0]);
+        double azB = Math.toRadians(azStar[1]);
 
-        double[][][] zenit = new double[3][2][2];
-        // zenit = {
-        // {{xZAB1, yZAB1},{xZAB2, yZAB2}},
-        // {{xZAC1, yZAC1},{xZAC2, yZAC2}},
-        // {{xZBC1, yZBC1},{xZBC2, yZBC2}}
-        // }
 
-        zenit[0][0][0] = xA + a * Math.cos(Math.acos(dXAB / AB) + Math.acos( (1-)));
+        double[][] zenit = new double[2][2];
 
-        return zenit[0][0][0];
+        double i = phi(dYAB, dXAB, AB, a, b, azA, azB);
+        double in = phin(dYAB, dXAB, AB, a, b, azA, azB);
+
+        System.out.println(i);
+        System.out.println(in);
+
+        //AB
+        zenit[0][0] = xA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.cos(i); // 410
+        zenit[0][1] = yA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.sin(i); // 199
+
+        zenit[1][0] = xA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.cos(in);
+        zenit[1][1] = yA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.sin(in);
+
+        return zenit;
     }
+
+    public static double phi(double dy, double dx, double d, double aw, double bw, double alphaA, double alphaB){
+        double g = bw/aw;
+        double dalpha = Math.abs(alphaB-alphaA);
+        return  signum(dy) *
+                Math.acos(dx/d) +
+                Math.acos((1-g*Math.cos(dalpha))/Math.sqrt(K(g, dalpha)));
+    }
+    public static double phin(double dy, double dx, double d, double aw, double bw, double alphaA, double alphaB){
+        double g = bw/aw;
+        double dalpha = Math.abs(alphaB-alphaA);
+        return  signum(dy) *
+                Math.acos(dx/d) -
+                Math.acos((1-g*Math.cos(dalpha))/Math.sqrt(K(g, dalpha)));
+    }
+
+    public static double signum(double f) {
+        return (f >= 0) ? 1 : -1;
+    }
+
+    public static double K(double g, double da){
+        System.out.println(Math.pow(g, 2) - 2 * g * Math.cos(da) + 1);
+        return Math.pow(g, 2) - 2 * g * Math.cos(da) + 1;
+    }
+
 }

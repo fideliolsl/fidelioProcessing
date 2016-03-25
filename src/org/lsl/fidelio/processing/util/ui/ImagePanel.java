@@ -26,13 +26,29 @@ public class ImagePanel extends JPanel {
             {0, 0},         // Star 1
             {0, 0},         // Star 2
             {0, 0},         // Star 3
-            {0, 0},         // Zenit
+            {0, 0},         // Zenit1
+            {0, 0},         // Zenit2
+            {0, 0},         // Zenit3
+            {0, 0},         // Zenit12
+            {0, 0},         // Zenit22
+            {0, 0},         // Zenit32
     };
     public double[] radius = {
             0,0,0
     };
     public boolean[] visibility = {
-            false, false, false, false, false//      Star1, Star2, Star3, Zenit
+            false,
+            false,
+            false,
+            false,
+
+            false,
+            false,
+            false,
+
+            false,
+            false,
+            false,
     };
 
     double RotationRadian = 0;
@@ -60,15 +76,6 @@ public class ImagePanel extends JPanel {
                     this);
 
 
-            if (visibility[3]) {
-                new Zenit(g, color, "z", 0, position[3]);
-            }
-            if (visibility[4]) {
-                new Circle(g, color, position[0], radius[0]);
-                new Circle(g, color, position[1], radius[1]);
-                new Circle(g, color, position[2], radius[2]);
-            }
-
             if (visibility[0]) {
                 new Star(g, color, "0", position[0]);
             }
@@ -78,6 +85,25 @@ public class ImagePanel extends JPanel {
             if (visibility[2]) {
                 new Star(g, color, "2", position[2]);
             }
+            if (visibility[3]) {
+                new Zenit(g, color, "z1",0, position[3]);
+            }if (visibility[4]) {
+                new Zenit(g, color, "z12",0, position[4]);
+            }if (visibility[5]) {
+                new Zenit(g, color, "z2",0, position[5]);
+            }if (visibility[6]) {
+                new Zenit(g, color, "z22",0, position[6]);
+            }if (visibility[7]) {
+                new Zenit(g, color, "z3",0, position[7]);
+            }if (visibility[8]) {
+                new Zenit(g, color, "z32",0, position[8]);
+            }
+
+
+
+
+
+
             if(visibility[0] && visibility[1]){
                 new StarDistancesPointer(g, color, "0 - 1", position[0], position[1]);
             }
@@ -108,6 +134,7 @@ public class ImagePanel extends JPanel {
     }
 
     public void setPosition(int x, int y, int index) {
+        //System.out.println(index + " " +  x + " " + y);
         int[] i = {x, y};
         position[index]=i;
         repaint();

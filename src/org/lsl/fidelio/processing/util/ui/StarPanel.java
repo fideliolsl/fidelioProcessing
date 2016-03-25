@@ -295,7 +295,7 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
         txtStarY.setText(String.valueOf(y));
     }
 
-    double getAbsoluteAz() {
+    public double getAbsoluteAz() {
         calculatedAzimut = 0;
         try {
             calculatedAzimut = Double.parseDouble(txtAzimutDegree.getText())
