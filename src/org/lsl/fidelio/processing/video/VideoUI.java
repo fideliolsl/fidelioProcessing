@@ -20,7 +20,6 @@ package org.lsl.fidelio.processing.video;
 
 import org.lsl.fidelio.processing.Main;
 import org.lsl.fidelio.processing.util.Utils;
-import org.lsl.fidelio.processing.util.ui.ImagePanel;
 import org.lsl.fidelio.processing.util.ui.VideoPanel;
 
 import javax.swing.*;
@@ -141,7 +140,7 @@ public class VideoUI extends JFrame implements ActionListener {
         System.out.println("loaded image: " + file);
         videoPreview = new VideoPanel(file, btnNextFrame, btnPreviousFrame, btnPlayVideo, btnPauseVideo);
         previewPanel.setViewportView(videoPreview);
-        Utils.setPropery(Utils.KEY_LASTFILE, file.toString());
+        Utils.setProperty(Utils.KEY_LASTFILE, file.toString());
     }
 
     @Override

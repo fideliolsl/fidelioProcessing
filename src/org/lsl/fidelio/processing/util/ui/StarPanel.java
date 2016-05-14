@@ -7,7 +7,6 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.Color;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -18,8 +17,6 @@ import org.lsl.fidelio.processing.util.Utils;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
 import java.util.StringTokenizer;
 
 public class StarPanel extends JPanel implements ActionListener, DocumentListener {
@@ -333,12 +330,12 @@ public class StarPanel extends JPanel implements ActionListener, DocumentListene
 
     public void saveValues() {
         try {
-            Utils.setPropery(Utils.KEY_STARPARAMS[panelIndex][0],
+            Utils.setProperty(Utils.KEY_STARPARAMS[panelIndex][0],
                     jTextFields[0][0].getText() +
                             "," + jTextFields[0][1].getText() +
                             "," + jTextFields[0][2].getText());
 
-            Utils.setPropery(Utils.KEY_STARPARAMS[panelIndex][1],
+            Utils.setProperty(Utils.KEY_STARPARAMS[panelIndex][1],
                     jTextFields[1][0].getText() + "," + jTextFields[1][1].getText() + "," + jTextFields[1][2].getText());
         }catch (Exception e){
             e.printStackTrace();

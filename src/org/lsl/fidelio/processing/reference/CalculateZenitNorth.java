@@ -1,5 +1,7 @@
 package org.lsl.fidelio.processing.reference;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * Created by Jonas Drotleff on 28.01.2016.
  */
@@ -7,6 +9,13 @@ public class CalculateZenitNorth {
 
     private static double[] distancesPixel = new double[3];
 
+
+    /**
+     * @deprecated
+     * @param coordinates
+     * @param distances
+     * @return
+     */
     public static double pixelPerDegreeeRatio(int[][] coordinates, double[] distances) {
         distancesPixel[0] = Math.sqrt(
                 Math.pow(coordinates[0][0] - coordinates[1][0], 2) +
@@ -54,43 +63,48 @@ public class CalculateZenitNorth {
         double[][] zenit = new double[2][2];
 
         double i = phi(dYAB, dXAB, AB, a, b, azA, azB);
-        double in = phin(dYAB, dXAB, AB, a, b, azA, azB);
+        double iN = phiN(dYAB, dXAB, AB, a, b, azA, azB);
 
         System.out.println(i);
-        System.out.println(in);
+        System.out.println(iN);
 
         //AB
         zenit[0][0] = xA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.cos(i); // 410
         zenit[0][1] = yA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.sin(i); // 199
 
-        zenit[1][0] = xA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.cos(in);
-        zenit[1][1] = yA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.sin(in);
+        zenit[1][0] = xA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.cos(iN);
+        zenit[1][1] = yA + (AB/Math.sqrt(K(b/a, Math.abs(azB-azA))))* Math.sin(iN);
 
         return zenit;
     }
 
-    public static double phi(double dy, double dx, double d, double aw, double bw, double alphaA, double alphaB){
+
+    public static double phi(double deltaY, double deltaX, double d, double aw, double bw, double alphaA, double alphaB){
         double g = bw/aw;
-        double dalpha = Math.abs(alphaB-alphaA);
-        return  signum(dy) *
-                Math.acos(dx/d) +
-                Math.acos((1-g*Math.cos(dalpha))/Math.sqrt(K(g, dalpha)));
+        double deltaAlpha = Math.abs(alphaB-alphaA);
+        double y = signum(deltaY) * Math.acos(deltaX/d) + Math.acos(( 1 - g * Math.cos(deltaAlpha)) / Math.sqrt( K(g, deltaAlpha)));
+        return y;
     }
-    public static double phin(double dy, double dx, double d, double aw, double bw, double alphaA, double alphaB){
+    public static double phiN(double deltaY, double deltaX, double d, double aw, double bw, double alphaA, double alphaB){
         double g = bw/aw;
-        double dalpha = Math.abs(alphaB-alphaA);
-        return  signum(dy) *
-                Math.acos(dx/d) -
-                Math.acos((1-g*Math.cos(dalpha))/Math.sqrt(K(g, dalpha)));
+        double deltaAlpha = Math.abs(alphaB-alphaA);
+        double y = signum(deltaY) * Math.acos(deltaX/d) - Math.acos(( 1 - g * Math.cos(deltaAlpha)) / Math.sqrt( K(g, deltaAlpha)));
+        return y;
     }
 
-    public static double signum(double f) {
-        return (f >= 0) ? 1 : -1;
+    public static double signum(double x) {
+        /**
+         * signum method:
+         * value > 0 -> 1
+         * value < 0 -> 0
+         */
+        double y = (x >= 0) ? 1 : -1;
+        return y;
     }
 
     public static double K(double g, double da){
-        System.out.println(Math.pow(g, 2) - 2 * g * Math.cos(da) + 1);
-        return Math.pow(g, 2) - 2 * g * Math.cos(da) + 1;
+        double y = Math.pow(g, 2) - 2 * g * Math.cos(da) + 1;
+        return y;
     }
 
 }

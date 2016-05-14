@@ -47,11 +47,6 @@ public class StarDistances extends JPanel implements DocumentListener {
     String colorErrorHEX = "0xad8c43";
     String colorNormalHEX = "0x000000";
 
-    boolean isNumeric = false;
-    public boolean isNumeric() {
-        return isNumeric;
-    }
-
     boolean loadLast = false;
 
     @Override
@@ -232,20 +227,8 @@ public class StarDistances extends JPanel implements DocumentListener {
                     + (Double.parseDouble(txtMinuteDistance0_1.getText()) / 60
                     + (Double.parseDouble(txtSecondDistance0_1.getText()) / 60) / 60);
             lbl01Description.setForeground(Color.decode(colorNormalHEX));
-            isNumeric = true;
-            if (!loadLast) {
-                Utils.setPropery(Utils.KEY_DISTANCES[0],
-                        jTextFields[0][0].getText() +
-                                "," +
-                                jTextFields[0][1].getText() +
-                                "," +
-                                jTextFields[0][2].getText());
-            }
         } catch (Exception e) {
-            //System.err.println(e);
             lbl01Description.setForeground(Color.decode(colorErrorHEX));
-            isNumeric = false;
-
         }
         lbl01Value.setText(Utils.numberFormatHelper(value, calculatedDistance12));
         return calculatedDistance12;
@@ -258,17 +241,7 @@ public class StarDistances extends JPanel implements DocumentListener {
                     + (Double.parseDouble(txtMinuteDistance1_2.getText()) / 60
                     + (Double.parseDouble(txtSecondDistance1_2.getText()) / 60) / 60);
             lbl12Description.setForeground(Color.decode(colorNormalHEX));
-            if (!loadLast) {
-                Utils.setPropery(Utils.KEY_DISTANCES[1],
-                        jTextFields[1][0].getText() +
-                                "," +
-                                jTextFields[1][1].getText() +
-                                "," +
-                                jTextFields[1][2].getText());
-            }
         } catch (Exception e) {
-            //System.err.println(e);
-            isNumeric = false;
             lbl12Description.setForeground(Color.decode(colorErrorHEX));
         }
         lbl12Value.setText(Utils.numberFormatHelper(value, calculatedDistance23));
@@ -282,21 +255,22 @@ public class StarDistances extends JPanel implements DocumentListener {
                     + (Double.parseDouble(txtMinuteDistance0_2.getText()) / 60
                     + (Double.parseDouble(txtSecondDistance0_2.getText()) / 60) / 60);
             lbl02Description.setForeground(Color.decode(colorNormalHEX));
-            if (!loadLast) {
-                Utils.setPropery(Utils.KEY_DISTANCES[2],
-                        jTextFields[2][0].getText() +
-                                "," +
-                                jTextFields[2][1].getText() +
-                                "," +
-                                jTextFields[2][2].getText());
-            }
         } catch (Exception e) {
-            //System.err.println(e);
-            isNumeric = false;
             lbl02Description.setForeground(Color.decode(colorErrorHEX));
         }
         lbl02Value.setText(Utils.numberFormatHelper(value, calculatedDistance13));
         return calculatedDistance13;
+    }
+
+    public void saveValues() {
+        for (int i = 0; i < jTextFields.length; i++) {
+            Utils.setProperty(Utils.KEY_DISTANCES[i],
+                    jTextFields[i][0].getText() +
+                            "," +
+                            jTextFields[i][1].getText() +
+                            "," +
+                            jTextFields[i][2].getText());
+        }
     }
 
 }

@@ -45,11 +45,7 @@ package org.lsl.fidelio.processing.util;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @see <a href="http://life-science-lab.org">life-science-lab.org</a>
  */
-
-import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
-import org.lsl.fidelio.processing.reference.ReferenceUI;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -64,8 +60,7 @@ public class Utils {
     public final static String jpeg = "jpeg";
     public final static String jpg = "jpg";
     public final static String png = "png";
-    public final static String avi = "avi";
-    public final static String mov = "mov";
+    public final static String bwv = "bwv";
 
     private static Properties prop = new Properties();
     private static OutputStream outputStream = null;
@@ -75,13 +70,24 @@ public class Utils {
     public static File propertyFile = new File(projectDirectory + File.separator + "config.properties");
 
     public static String KEY_LASTFILE = "last_file";
-    public static String[] KEY_POSITIONS = {"star0xy", "star1xy", "star2xy"};
-    public static String[][] KEY_STARPARAMS = {
-            {"az0", "Height0"},
-            {"az1", "height1"},
-            {"az2", "height2"}
-    };
-    public static String[] KEY_DISTANCES = {"distance01", "distance02", "distance12"};
+    public static String[] KEY_POSITIONS =
+            {
+                    "star0xy",
+                    "star1xy",
+                    "star2xy"
+            };
+    public static String[][] KEY_STARPARAMS =
+            {
+                    {"az0", "Height0"},
+                    {"az1", "height1"},
+                    {"az2", "height2"}
+            };
+    public static String[] KEY_DISTANCES =
+            {
+                    "distance01",
+                    "distance02",
+                    "distance12"
+            };
 
     /*
      * Get the extension of a file.
@@ -117,6 +123,7 @@ public class Utils {
     }
 
     static public String numberFormatHelper(String string, double d) {
+        // return correct string with number
         if (d == (int) d) {
             return String.format(string + " %d", (int) d);
         } else {
@@ -124,31 +131,47 @@ public class Utils {
         }
     }
 
-    public static void loadProperties() {
+    public static boolean initProperties() {
         if (Files.notExists(projectDirectory)) {
+            // if project directory (~/.fidelio) does not exist, create it
             projectDirectory.toFile().mkdir();
-        }
-        if (Files.notExists(propertyFile.toPath())) {
+            // create config.properties
             try {
                 outputStream = new FileOutputStream(propertyFile.toString());
                 prop.setProperty(KEY_LASTFILE, "");
                 prop.store(outputStream, null);
+                outputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 warningDialog("Error while creating property file.");
-            } finally {
-                if (outputStream != null) {
-                    try {
-                        outputStream.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+            }
+            return false;
+        }
+        if (Files.notExists(propertyFile.toPath())) {
+            // create config.properties if missing
+            try {
+                outputStream = new FileOutputStream(propertyFile.toString());
+                prop.setProperty(KEY_LASTFILE, "");
+                prop.store(outputStream, null);
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                warningDialog("Error while creating property file.");
+            }
+            return false;
+        }else {
+            try {
+                inputStream = new FileInputStream(propertyFile);
+                prop.load(inputStream);
+                return true;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return false;
             }
         }
     }
 
-    public static void setPropery(String key, String value) {
+    public static void setProperty(String key, String value) {
         try {
             outputStream = new FileOutputStream(propertyFile.toString());
             prop.setProperty(key, value);

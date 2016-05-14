@@ -21,7 +21,6 @@ package org.lsl.fidelio.processing.reference;
 import org.lsl.fidelio.processing.Main;
 import org.lsl.fidelio.processing.util.*;
 import org.lsl.fidelio.processing.util.ui.*;
-import org.lsl.fidelio.processing.video.VideoUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,6 +43,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
     private JButton btnAbort;
     private JButton btnNext;
     private JMenuItem menuItemFileOpen;
+    private JMenuItem menuItemFileSave;
     public static ImagePanel previewPanel;
     private JScrollPane scrollPanePreview;
 
@@ -164,7 +164,13 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
         menuItemFileOpen = new JMenuItem("Open file...");
         menuItemFileOpen.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menuItemFileOpen.addActionListener(this);
+
+        menuItemFileSave = new JMenuItem("Save");
+        menuItemFileSave.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItemFileSave.addActionListener(this);
+
         menuFile.add(menuItemFileOpen);
+        menuFile.add(menuItemFileSave);
         menuBar.add(menuFile);
         setJMenuBar(menuBar);
     }
@@ -202,7 +208,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             imgLoaded = true;
             initListeners();
         }
-        Utils.setPropery(Utils.KEY_LASTFILE, file.toString());
+        Utils.setProperty(Utils.KEY_LASTFILE, file.toString());
     }
 
     public static void changeCoordinates(int index, boolean change) {
@@ -244,7 +250,7 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             if (!previewPanel.isVisible(starIndex)) {
                 previewPanel.setVisible(true, starIndex);
             }
-            Utils.setPropery(Utils.KEY_POSITIONS[starIndex], String.format("%1$s,%2$s", x, y));
+            Utils.setProperty(Utils.KEY_POSITIONS[starIndex], String.format("%1$s,%2$s", x, y));
         }
     }
 
@@ -339,6 +345,12 @@ public class ReferenceUI extends JFrame implements ActionListener, DocumentListe
             Main.saveExit();
         } else if (e.getSource() == menuItemFileOpen) {
             openFileDialog(mFileChooserRefImg);
+
+        } else if (e.getSource() == menuItemFileSave) {
+            for (int i = 0; i < starPanels.length; i++) {
+                starPanels[i].saveValues();
+            }
+            starDistancesPanel.saveValues();
 
         } else if (e.getSource() == btnNext) {
             getZenit();
