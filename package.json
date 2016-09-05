@@ -1,0 +1,22 @@
+{
+  "name": "fidelio_analysis",
+  "version": "0.4.2",
+  "description": "Analysis videos capatured with a meteor camera",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fidelio-lsl/FIDELIO_analysis.git"
+  },
+  "author": "Jonas Drotleff <jonas.drotleff@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/fidelio-lsl/FIDELIO_analysis/issues"
+  },
+  "homepage": "https://github.com/fidelio-lsl/FIDELIO_analysis#readme"
+}
