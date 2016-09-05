@@ -2,3 +2,8 @@
 out/
 
 src/org/lsl/fidelio/processing/TestClass.java
+
+# IDE local files
+.idea/
+*.iml
+
